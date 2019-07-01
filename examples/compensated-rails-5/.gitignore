@@ -1,0 +1,6 @@
+log/*
+*.sqlite3
+
+config/database.yml
+tmp/*
+config/master.key
