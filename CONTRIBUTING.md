@@ -1,0 +1,1 @@
+Contributors transfer all ownership rights to ZTI upon acceptance of their contributions into the primary ZTI repository. Further, contributor's guarantee that they have the right to transfer ownership of their contributions; and shall indemnify ZTI from any and all repercussions caused by a violation of this guarantee.
