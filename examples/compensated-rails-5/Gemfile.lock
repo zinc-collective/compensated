@@ -7,6 +7,7 @@ PATH
   remote: ../../compensated-ruby-stripe
   specs:
     compensated-stripe (0.1.0)
+      compensated
 
 PATH
   remote: ../../compensated-ruby
