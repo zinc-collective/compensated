@@ -9,9 +9,10 @@ class PaymentProcessorEventsController < ApplicationController
     # We strongly encourage keeping payment processor events around
     # for conflict reconciliation, fraud detection, etc.
     #
-    event = PaymentProcessorEvent.create(handler.normalized_event_data.slice(:request_body,
-                                                                             :event_type,
-                                                                             :payment_processor_vendor))
+    event = PaymentProcessorEvent.create(handler.normalized_event_data.slice(:raw_body,
+                                                                             :raw_event_type,
+                                                                             :raw_event_id,
+                                                                             :vendor))
     if event.persisted?
       head :ok
     else

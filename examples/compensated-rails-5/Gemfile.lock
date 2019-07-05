@@ -1,15 +1,4 @@
 PATH
-  remote: ../../compensated-ruby-gumroad
-  specs:
-    compensated-gumroad (0.1.0)
-
-PATH
-  remote: ../../compensated-ruby-stripe
-  specs:
-    compensated-stripe (0.1.0)
-      compensated
-
-PATH
   remote: ../../compensated-ruby
   specs:
     compensated (0.1.0)
@@ -151,8 +140,6 @@ PLATFORMS
 DEPENDENCIES
   byebug
   compensated!
-  compensated-gumroad!
-  compensated-stripe!
   jbuilder (~> 2.5)
   listen (>= 3.0.5, < 3.2)
   puma (~> 3.11)

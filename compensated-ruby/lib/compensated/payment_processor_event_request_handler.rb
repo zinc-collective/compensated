@@ -1,6 +1,7 @@
 module Compensated
-  # Normalizes events by wrapping them in the appropriate
-  # payment processor event class
+  # Normalizes events by passing them to an EventParser
+  # Which transforms them into a hash that can be
+  # persisted to a database.
   class PaymentProcessorEventRequestHandler
     attr_accessor :event_request
     # @param event_request [Request] A rack-compatible HTTP request triggered
@@ -11,22 +12,18 @@ module Compensated
 
     # @return Hash
     def normalized_event_data
-      event_parser.parse(event_request_body_json)
+      event_parser.parse(event_request_body_data)
     end
 
     protected def event_parser
       return @event_parser unless @event_parser.nil?
-      @event_parser = event_parsers.find { |parser| parser.parses?(event_request_body_json) }
-      raise NoParserForEventError, event_request_body if @event_parser.nil?
+      @event_parser = Compensated.event_parsers.find { |parser| parser.parses?(event_request_body_data) }
+      raise NoParserForEventError, event_request_body_data if @event_parser.nil?
       @event_parser
     end
 
-    protected def event_parsers
-      Compensated.event_parsers
-    end
-
-    protected def event_request_body_json
-      @event_request_body_json ||= Compensated.json_adapter.parse(event_request_body)
+    protected def event_request_body_data
+      @event_request_body_data ||= Compensated.json_adapter.parse(event_request_body)
     end
 
     protected def event_request_body

@@ -5,10 +5,12 @@ module Compensated
   class Error < StandardError; end
   class NoParserForEventError < Error; end
 
+  # Collection of parsers useful in the application
+  # Plugins like compensated-stripe, compensated-iap-android,
+  # compensated-iap-apple, and compensated-gumroad.
   def self.event_parsers
     @event_parsers ||= []
   end
-
 
   # A singletonesque JSON parser for use in plugins that need to interact
   # with JSON from IO streams.
@@ -27,7 +29,7 @@ module Compensated
   # In cases where the default JSON parser is unacceptable, configure
   # the json engine using `Compensated.json_engine = <Your preferred JSON parser>`
   def self.json_engine
-    require 'json' if(!@json_engine)
+    require "json" unless @json_engine
     @json_engine ||= JSON
   end
 
@@ -55,7 +57,6 @@ module Compensated
       io_source.rewind if io_source.respond_to?(:rewind)
       object
     end
-
 
     def dump(object)
       engine.dump(object)
