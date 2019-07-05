@@ -12,7 +12,7 @@ module Compensated
           raw_body: Compensated.json_adapter.dump(input_event),
           raw_event_type: input_event[:type].to_sym,
           raw_event_id: input_event[:id],
-          vendor: :stripe,
+          payment_processor: :stripe,
         }
       end
     end
