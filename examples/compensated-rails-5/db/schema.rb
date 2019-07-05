@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 2019_07_02_002827) do
     t.text "raw_body"
     t.string "raw_event_type", null: false
     t.string "raw_event_id"
-    t.string "vendor", default: "unknown"
+    t.string "payment_processor", default: "unknown"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

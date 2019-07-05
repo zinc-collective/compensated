@@ -12,7 +12,7 @@ class PaymentProcessorEventsController < ApplicationController
     event = PaymentProcessorEvent.create(handler.normalized_event_data.slice(:raw_body,
                                                                              :raw_event_type,
                                                                              :raw_event_id,
-                                                                             :vendor))
+                                                                             :payment_processor))
     if event.persisted?
       head :ok
     else

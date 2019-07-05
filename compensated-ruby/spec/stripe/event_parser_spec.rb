@@ -36,7 +36,7 @@ module Compensated
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(input_event) }
           it { is_expected.to include raw_event_type: :"charge.succeeded" }
           it { is_expected.to include raw_event_id: input_event[:id] }
-          it { is_expected.to include vendor: :stripe }
+          it { is_expected.to include payment_processor: :stripe }
         end
 
         context "when the input event is JSON parsed from a Stripe invoice.payment_succeeded event from Stripe API v2014-11-05" do
@@ -44,7 +44,7 @@ module Compensated
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(input_event) }
           it { is_expected.to include raw_event_type: :"invoice.payment_succeeded" }
           it { is_expected.to include raw_event_id: input_event[:id] }
-          it { is_expected.to include vendor: :stripe }
+          it { is_expected.to include payment_processor: :stripe }
         end
       end
     end
