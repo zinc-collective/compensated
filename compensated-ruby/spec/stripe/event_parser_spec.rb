@@ -3,7 +3,7 @@ module Compensated
   module Stripe
     RSpec.describe EventParser do
       def parse_json(fixture)
-        Compensated.json_adapter.parse(File.open(File.join(__dir__, fixture)))
+        Compensated.json_adapter.parse(File.open(File.join(__dir__, 'fixtures', fixture)))
       end
 
       it "Adds itself to the list of event parses available to compensated" do
