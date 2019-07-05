@@ -1,6 +1,6 @@
 module Compensated
   module Stripe
-    SUPPORTED_EVENTS = %W(charge.succeeded)
+    SUPPORTED_EVENTS = %W(charge.succeeded invoice.payment_succeeded)
     class EventParser
       def parses?(input_event)
         return false if input_event.nil? || !input_event.respond_to?(:key)

@@ -22,6 +22,11 @@ module Compensated
           let(:input_event) { parse_json("charge.succeeded.api-v2014-11-05.json") }
           it { is_expected.to eql true }
         end
+
+        context 'when the input event is JSON parsed from a stripe charge.succeded event from Stripe API v2014-11-05' do
+          let(:input_event) { parse_json("invoice.payment_succeeded.api-v2014-11-05.json") }
+          it { is_expected.to eql true }
+        end
       end
 
       describe "#parse(input_event)" do
@@ -30,6 +35,14 @@ module Compensated
           let(:input_event) { parse_json("charge.succeeded.api-v2014-11-05.json") }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(input_event) }
           it { is_expected.to include event_type: :"charge.succeeded" }
+          it { is_expected.to include payment_processor_event_id: input_event[:id] }
+          it { is_expected.to include payment_processor_name: :stripe }
+        end
+
+        context 'when the input event is JSON parsed from a Stripe invoice.payment_succeeded event from Stripe API v2014-11-05' do
+          let(:input_event) { parse_json("invoice.payment_succeeded.api-v2014-11-05.json") }
+          it { is_expected.to include raw_body: Compensated.json_adapter.dump(input_event) }
+          it { is_expected.to include event_type: :"invoice.payment_succeeded" }
           it { is_expected.to include payment_processor_event_id: input_event[:id] }
           it { is_expected.to include payment_processor_name: :stripe }
         end
