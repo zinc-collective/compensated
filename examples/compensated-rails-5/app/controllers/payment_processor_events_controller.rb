@@ -22,6 +22,14 @@ class PaymentProcessorEventsController < ApplicationController
       # We encourage you to return a 5XX status code to trigger
       # the retry behavior.
       head :internal_server_error
+    rescue Compensated::Error
+      # If you don't care about particular errors
+      # You can return `ok`.
+
+      # However, this does mean that you could "miss" events that you really
+      # wanted to capture, but didn't notice because they were discarded
+      # quietly.
+      head :ok
     end
   end
 end
