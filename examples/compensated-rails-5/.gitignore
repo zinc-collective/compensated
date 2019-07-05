@@ -4,3 +4,4 @@ log/*
 config/database.yml
 tmp/*
 config/master.key
+.byebug_history
