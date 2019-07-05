@@ -1,1 +1,1 @@
-require 'compensated/stripe'
+require "compensated/stripe"

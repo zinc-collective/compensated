@@ -5,14 +5,13 @@ class PaymentProcessorEventsController < ApplicationController
     # for your convenience.
     handler = Compensated::PaymentProcessorEventRequestHandler.new(request)
 
-
     # We strongly encourage keeping payment processor events around
     # for conflict reconciliation, fraud detection, etc.
     #
     event = PaymentProcessorEvent.create(handler.normalized_event_data.slice(:raw_body,
-                                                                             :raw_event_type,
-                                                                             :raw_event_id,
-                                                                             :payment_processor))
+      :raw_event_type,
+      :raw_event_id,
+      :payment_processor))
     if event.persisted?
       head :ok
     else

@@ -11,7 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 2019_07_02_002827) do
-
   create_table "payment_processor_events", force: :cascade do |t|
     t.text "raw_body"
     t.string "raw_event_type", null: false
@@ -20,5 +19,4 @@ ActiveRecord::Schema.define(version: 2019_07_02_002827) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
 end
