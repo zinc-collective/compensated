@@ -18,5 +18,6 @@ module Compensated
     end
   end
 
-  event_parsers.push(Stripe::EventParser.new) # Adds to the event parses available to compensated
+  # Ensure Compensated is aware that the stripe event parser is available.
+  event_parsers.push(Stripe::EventParser.new)
 end
