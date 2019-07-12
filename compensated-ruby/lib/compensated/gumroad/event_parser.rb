@@ -18,6 +18,6 @@ module Compensated
         }
       end
     end
-    Compensated.event_parsers.push(EventParser)
+    Compensated.event_parsers.push(EventParser.new)
   end
 end

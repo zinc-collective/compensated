@@ -10,7 +10,8 @@ module Compensated
       end
 
       it "Adds itself to the list of event parses available to compensated" do
-        expect(Compensated.event_parsers).to include(described_class)
+
+        expect(Compensated.event_parsers.find { |ep| ep.instance_of?(Gumroad::EventParser) }).not_to be_nil
       end
 
       subject(:event_parser) { EventParser.new }
