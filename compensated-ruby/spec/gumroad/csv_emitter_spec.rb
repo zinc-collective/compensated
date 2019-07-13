@@ -1,4 +1,5 @@
 require "compensated/gumroad"
+
 module Compensated
   module Gumroad
     RSpec.describe(CSVEmitter) do

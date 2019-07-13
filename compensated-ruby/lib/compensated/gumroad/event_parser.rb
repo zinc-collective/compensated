@@ -9,15 +9,21 @@ module Compensated
       end
 
       def parse(request)
+        if request.body.respond_to?(:read)
+          body = request.body.read
+          request.body.rewind
+        else
+          body = request.body
+        end
+
         {
-          raw_body: request.body,
+          raw_body: body,
           raw_event_type: request.data["resource_name"].to_sym,
           raw_event_id: nil,
-          payment_processor: :gumroad,
-
+          payment_processor: :gumroad
         }
       end
     end
-    Compensated.event_parsers.push(EventParser.new)
+    Compensated.event_parsers.push(Gumroad::EventParser.new)
   end
 end

@@ -8,6 +8,7 @@ module Compensated
     # @param event_request [Request] A rack-compatible HTTP request triggered
     #                                by the payment processor
     def initialize(event_request)
+      @event_parser = nil
       self.event_request = PaymentProcessorEventRequest.new(event_request)
     end
 
