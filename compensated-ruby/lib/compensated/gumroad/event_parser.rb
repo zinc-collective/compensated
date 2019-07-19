@@ -22,6 +22,7 @@ module Compensated
           raw_event_id: nil,
           payment_processor: :gumroad,
           amount: {paid: request.data["price"].to_i, currency: request.data["currency"].upcase},
+          payer: {id: request.data["purchaser_id"].to_s, email: request.data["email"]},
         }
       end
     end
