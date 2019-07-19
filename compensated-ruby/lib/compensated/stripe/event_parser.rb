@@ -25,6 +25,10 @@ module Compensated
             name: request.data[:data][:object][:customer_name],
             id: request.data[:data][:object][:customer],
           }.compact
+        else
+          {
+            id: request.data[:data][:object][:customer],
+          }
         end
       end
 

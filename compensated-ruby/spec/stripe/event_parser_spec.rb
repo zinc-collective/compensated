@@ -38,7 +38,17 @@ module Compensated
           it { is_expected.to include raw_event_type: :"charge.succeeded" }
           it { is_expected.to include raw_event_id: request.data[:id] }
           it { is_expected.to include payment_processor: :stripe }
-          it { is_expected.to include amount: {paid: 4_00, currency: "USD"} }
+          it {
+            is_expected.to include amount: {
+              paid: 4_00,
+              currency: "USD",
+            }
+          }
+          it {
+            is_expected.to include customer: {
+              id: "cus_00000000000000",
+            }
+          }
         end
 
         context "when the input event is JSON parsed from a Stripe invoice.payment_succeeded event from Stripe API v2014-11-05" do
