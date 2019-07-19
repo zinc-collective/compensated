@@ -20,7 +20,8 @@ module Compensated
           raw_body: body,
           raw_event_type: request.data["resource_name"].to_sym,
           raw_event_id: nil,
-          payment_processor: :gumroad
+          payment_processor: :gumroad,
+          amount: {paid: request.data["price"].to_i, currency: request.data["currency"].upcase},
         }
       end
     end
