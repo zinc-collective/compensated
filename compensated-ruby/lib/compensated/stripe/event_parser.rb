@@ -13,13 +13,12 @@ module Compensated
           raw_event_type: request.data[:type].to_sym,
           raw_event_id: request.data[:id],
           payment_processor: :stripe,
-          value: value(request),
+          amount: amount(request),
         }
       end
 
-      private def value(request)
+      private def amount(request)
         {
-          amount: amount(request),
           currency: request.data[:data][:object][:currency].upcase,
           due: due(request),
           paid: paid(request),
@@ -28,7 +27,8 @@ module Compensated
       end
 
       private def paid(request)
-        request.data.fetch(:data, {}).fetch(:object, {}).fetch(:amount_paid, nil)
+        return request.data[:data][:object][:amount_paid] if invoice?(request)
+        request.data[:data][:object][:amount]
       end
 
       private def remaining(request)
@@ -37,11 +37,6 @@ module Compensated
 
       private def due(request)
         request.data.fetch(:data, {}).fetch(:object, {}).fetch(:amount_due, nil)
-      end
-
-      private def amount(request)
-        return request.data[:data][:object][:amount_paid] if invoice?(request)
-        request.data[:data][:object][:amount]
       end
 
       private def invoice?(request)

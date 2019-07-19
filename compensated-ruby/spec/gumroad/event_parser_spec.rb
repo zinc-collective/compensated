@@ -35,7 +35,7 @@ module Compensated
           it { is_expected.to include raw_event_type: :sale }
           it { is_expected.to include raw_event_id: nil }
           it { is_expected.to include payment_processor: :gumroad }
-          it { is_expected.to include({value: {amount: 20_00, currency: "USD"}}) }
+          it { is_expected.to include({amount: {paid: 20_00, currency: "USD"}}) }
         end
       end
     end
