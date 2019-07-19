@@ -14,7 +14,18 @@ module Compensated
           raw_event_id: request.data[:id],
           payment_processor: :stripe,
           amount: amount(request),
+          customer: customer(request),
         }
+      end
+
+      private def customer(request)
+        if invoice?(request)
+          {
+            email: request.data[:data][:object][:customer_email],
+            name: request.data[:data][:object][:customer_name],
+            id: request.data[:data][:object][:customer],
+          }.compact
+        end
       end
 
       private def amount(request)

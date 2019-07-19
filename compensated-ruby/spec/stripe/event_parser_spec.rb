@@ -55,6 +55,13 @@ module Compensated
               currency: "USD",
             }
           }
+          it {
+            is_expected.to include customer: {
+              id: "cus_00000000000000",
+              email: "customer@example.com",
+              name: "Customer X",
+            }
+          }
         end
       end
     end
