@@ -30,6 +30,48 @@ module Compensated
         end
       end
 
+      describe "#normalize(data)" do
+        subject(:data) { event_parser.normalize(input) }
+        let(:request) { fake_request("charge.succeeded.api-v2014-11-05.json") }
+        context "when the input is a string of the body" do
+          let(:input) { request.body.read }
+          it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
+          it { is_expected.to include raw_event_type: :"charge.succeeded" }
+          it { is_expected.to include raw_event_id: request.data[:id] }
+          it { is_expected.to include payment_processor: :stripe }
+          it {
+            is_expected.to include amount: {
+              paid: 4_00,
+              currency: "USD",
+            }
+          }
+          it {
+            is_expected.to include customer: {
+              id: "cus_00000000000000",
+            }
+          }
+        end
+
+        context "when the input is a hash of data" do
+          let(:input) { request.data }
+          it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
+          it { is_expected.to include raw_event_type: :"charge.succeeded" }
+          it { is_expected.to include raw_event_id: request.data[:id] }
+          it { is_expected.to include payment_processor: :stripe }
+          it {
+            is_expected.to include amount: {
+              paid: 4_00,
+              currency: "USD",
+            }
+          }
+          it {
+            is_expected.to include customer: {
+              id: "cus_00000000000000",
+            }
+          }
+        end
+      end
+
       describe "#parse(request)" do
         subject(:event) { event_parser.parse(request) }
         context "when the input event is JSON parsed from a Stripe charge.succeeded event from Stripe API v2014-11-05" do

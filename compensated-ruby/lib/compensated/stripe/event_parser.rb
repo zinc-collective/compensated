@@ -7,55 +7,60 @@ module Compensated
         SUPPORTED_EVENTS.include?(request.data[:type])
       end
 
-      def parse(request)
+      def normalize(data)
+        data = Compensated.json_adapter.parse(data) unless data.respond_to?(:key)
         {
-          raw_body: Compensated.json_adapter.dump(request.data),
-          raw_event_type: request.data[:type].to_sym,
-          raw_event_id: request.data[:id],
+          raw_body: Compensated.json_adapter.dump(data),
+          raw_event_type: data[:type].to_sym,
+          raw_event_id: data[:id],
           payment_processor: :stripe,
-          amount: amount(request),
-          customer: customer(request),
+          amount: amount(data),
+          customer: customer(data),
         }
       end
 
-      private def customer(request)
-        if invoice?(request)
+      def parse(request)
+        normalize(request.data)
+      end
+
+      private def customer(data)
+        if invoice?(data)
           {
-            email: request.data[:data][:object][:customer_email],
-            name: request.data[:data][:object][:customer_name],
-            id: request.data[:data][:object][:customer],
+            email: data[:data][:object][:customer_email],
+            name: data[:data][:object][:customer_name],
+            id: data[:data][:object][:customer],
           }.compact
         else
           {
-            id: request.data[:data][:object][:customer],
+            id: data[:data][:object][:customer],
           }
         end
       end
 
-      private def amount(request)
+      private def amount(data)
         {
-          currency: request.data[:data][:object][:currency].upcase,
-          due: due(request),
-          paid: paid(request),
-          remaining: remaining(request),
+          currency: data[:data][:object][:currency].upcase,
+          due: due(data),
+          paid: paid(data),
+          remaining: remaining(data),
         }.compact
       end
 
-      private def paid(request)
-        return request.data[:data][:object][:amount_paid] if invoice?(request)
-        request.data[:data][:object][:amount]
+      private def paid(data)
+        return data[:data][:object][:amount_paid] if invoice?(data)
+        data[:data][:object][:amount]
       end
 
-      private def remaining(request)
-        request.data.fetch(:data, {}).fetch(:object, {}).fetch(:amount_remaining, nil)
+      private def remaining(data)
+        data.fetch(:data, {}).fetch(:object, {}).fetch(:amount_remaining, nil)
       end
 
-      private def due(request)
-        request.data.fetch(:data, {}).fetch(:object, {}).fetch(:amount_due, nil)
+      private def due(data)
+        data.fetch(:data, {}).fetch(:object, {}).fetch(:amount_due, nil)
       end
 
-      private def invoice?(request)
-        request.data[:data][:object][:object] == "invoice"
+      private def invoice?(data)
+        data[:data][:object][:object] == "invoice"
       end
     end
   end
