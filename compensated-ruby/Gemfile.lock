@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    compensated (0.1.0.pre5)
+    compensated (0.1.0.pre6)
 
 GEM
   remote: https://rubygems.org/
