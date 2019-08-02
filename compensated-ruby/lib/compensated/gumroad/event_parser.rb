@@ -11,7 +11,7 @@ module Compensated
 
       def normalize(data_or_body)
         data = data_or_body.respond_to?(:key) ? data_or_body : data_from_string(data_or_body)
-        body = data_or_body.respond_to?(:key) ? nil : data_or_body
+        body = data_or_body.respond_to?(:key) ? nil : read_and_rewind(data_or_body)
         {
           raw_body: body,
           raw_event_type: data["resource_name"].to_sym,
@@ -35,8 +35,9 @@ module Compensated
 
       private def read_and_rewind(body)
         if body.respond_to?(:read)
-          body = body.read
+          read_value = body.read
           body.rewind
+          read_value
         else
           body
         end
