@@ -13,6 +13,10 @@ module Compensated
         fixture.nil? ? nil : File.read(File.join(__dir__, "fixtures", fixture))
       end
 
+      def fixture_io(fixture)
+        fixture.nil? ? nil : File.open(File.join(__dir__, "fixtures", fixture))
+      end
+
       def fixture_data(fixture)
         Rack::Utils.default_query_parser.parse_query(fixture_content(fixture))
       end
@@ -38,6 +42,16 @@ module Compensated
         context "when it's a hash of that data" do
           let(:body_or_data) { fixture_data("sample-ping.as.multipart") }
           it { is_expected.not_to have_key(:raw_body) }
+          it { is_expected.to include raw_event_type: :sale }
+          it { is_expected.not_to have_key(:raw_event_id) }
+          it { is_expected.to include payment_processor: :gumroad }
+          it { is_expected.to include({amount: {paid: 20_00, currency: "USD"}}) }
+          it { is_expected.to include({customer: {id: "5312883333252", email: "customer@example.com", name: "Foo Bar"}}) }
+        end
+
+        context "when it's a IO object" do
+          let(:body_or_data) { fixture_io("sample-ping.as.multipart") }
+          it { is_expected.to include raw_body: body_or_data.read }
           it { is_expected.to include raw_event_type: :sale }
           it { is_expected.not_to have_key(:raw_event_id) }
           it { is_expected.to include payment_processor: :gumroad }
