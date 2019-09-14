@@ -29,7 +29,7 @@ module Compensated
   # In cases where the default JSON parser is unacceptable, configure
   # the json engine using `Compensated.json_engine = <Your preferred JSON parser>`
   def self.json_engine
-    require "json" unless @json_engine
+    require "json" unless defined?(@json_engine)
     @json_engine ||= JSON
   end
 
