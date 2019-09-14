@@ -1,7 +1,8 @@
+require "compensated/event_parser"
 module Compensated
   module Stripe
     SUPPORTED_EVENTS = %w[charge.succeeded invoice.payment_succeeded]
-    class EventParser
+    class EventParser < Compensated::EventParser
       def parses?(request)
         return false if request.nil? || request.empty?
         SUPPORTED_EVENTS.include?(request.data[:type])
@@ -17,10 +18,6 @@ module Compensated
           amount: amount(data),
           customer: customer(data),
         }
-      end
-
-      def parse(request)
-        normalize(request.data)
       end
 
       private def customer(data)

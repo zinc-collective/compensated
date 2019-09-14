@@ -4,6 +4,7 @@ module Compensated
   # functionality
   class PaymentProcessorEventRequest
     extend Forwardable
+
     attr_accessor :request
     # @param request [Rack::Request] A rack-compatible HTTP request triggered
     #                                by the payment processor
@@ -16,7 +17,7 @@ module Compensated
 
     # @returns Hash
     def data
-      return @data unless @data.nil?
+      return @data if defined?(@data) && !@data.nil?
       if request.form_data?
         @data = request.params
       elsif !body.nil?
