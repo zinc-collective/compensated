@@ -39,6 +39,7 @@ module Compensated
           it { is_expected.to include raw_event_type: :"charge.succeeded" }
           it { is_expected.to include raw_event_id: request.data[:id] }
           it { is_expected.to include payment_processor: :stripe }
+          it { is_expected.to include timestamp: Time.at(request.data[:created]) }
           it {
             is_expected.to include amount: {
               paid: 4_00,

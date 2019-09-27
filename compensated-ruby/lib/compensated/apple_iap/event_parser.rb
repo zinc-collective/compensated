@@ -18,6 +18,7 @@ module Compensated
           payment_processor: :apple_iap,
           customer: customer(data),
           products: products(data),
+          timestamp: DateTime.parse(receipt_data(data)[:purchase_date]),
         }.compact
       end
 

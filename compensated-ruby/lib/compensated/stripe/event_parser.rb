@@ -17,6 +17,7 @@ module Compensated
           payment_processor: :stripe,
           amount: amount(data),
           customer: customer(data),
+          timestamp: Time.at(data[:created]),
         }
       end
 

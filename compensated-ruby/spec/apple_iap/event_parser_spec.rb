@@ -84,6 +84,7 @@ module Compensated
               id: request.data[:latest_receipt_info][:original_transaction_id],
             }
           }
+          it { is_expected.to include timestamp: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]) }
         end
 
         context "when the input event is JSON parsed from a apple_iap invoice.payment_succeeded event from apple_iap" do
@@ -103,6 +104,7 @@ module Compensated
               id: request.data[:latest_expired_receipt_info][:original_transaction_id],
             }
           }
+          it { is_expected.to include timestamp: DateTime.parse(request.data[:latest_expired_receipt_info][:purchase_date]) }
         end
       end
     end

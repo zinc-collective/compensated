@@ -26,6 +26,7 @@ module Compensated
             email: data["email"],
             name: data["full_name"],
           },
+          timestamp: DateTime.parse(data["sale_timestamp"]),
         }.compact
       end
 
