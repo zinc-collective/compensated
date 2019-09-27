@@ -28,7 +28,8 @@ module Compensated
 
       def products(data)
         [
-          {sku: receipt_data(data)[:product_id]},
+          {sku: receipt_data(data)[:product_id],
+           expiration: DateTime.parse(receipt_data(data)[:expires_date_formatted]),},
         ]
       end
 
