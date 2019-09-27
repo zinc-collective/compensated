@@ -37,6 +37,7 @@ module Compensated
           it { is_expected.to include payment_processor: :gumroad }
           it { is_expected.to include({amount: {paid: 20_00, currency: "USD"}}) }
           it { is_expected.to include({customer: {id: "5312883333252", email: "customer@example.com", name: "Foo Bar"}}) }
+          it { is_expected.to include(timestamp: DateTime.parse("2019-07-11T21:05:15Z")) }
         end
 
         context "when it's a hash of that data" do
@@ -47,6 +48,7 @@ module Compensated
           it { is_expected.to include payment_processor: :gumroad }
           it { is_expected.to include({amount: {paid: 20_00, currency: "USD"}}) }
           it { is_expected.to include({customer: {id: "5312883333252", email: "customer@example.com", name: "Foo Bar"}}) }
+          it { is_expected.to include(timestamp: DateTime.parse("2019-07-11T21:05:15Z")) }
         end
 
         context "when it's a IO object" do
@@ -55,8 +57,10 @@ module Compensated
           it { is_expected.to include raw_event_type: :sale }
           it { is_expected.not_to have_key(:raw_event_id) }
           it { is_expected.to include payment_processor: :gumroad }
+          it { is_expected.to include payment_processor: :gumroad }
           it { is_expected.to include({amount: {paid: 20_00, currency: "USD"}}) }
           it { is_expected.to include({customer: {id: "5312883333252", email: "customer@example.com", name: "Foo Bar"}}) }
+          it { is_expected.to include(timestamp: DateTime.parse("2019-07-11T21:05:15Z")) }
         end
       end
 
@@ -83,6 +87,7 @@ module Compensated
           it { is_expected.to include payment_processor: :gumroad }
           it { is_expected.to include({amount: {paid: 20_00, currency: "USD"}}) }
           it { is_expected.to include({customer: {id: "5312883333252", email: "customer@example.com", name: "Foo Bar"}}) }
+          it { is_expected.to include(timestamp: DateTime.parse("2019-07-11T21:05:15Z")) }
         end
       end
     end

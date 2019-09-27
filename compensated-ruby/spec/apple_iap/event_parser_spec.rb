@@ -40,7 +40,13 @@ module Compensated
           it { is_expected.to include raw_event_id: request.data[:latest_receipt_info][:transaction_id] }
           it { is_expected.to include payment_processor: :apple_iap }
           it { is_expected.not_to have_key(:amount) }
-          it { is_expected.to include products: [{sku: request.data[:latest_receipt_info][:product_id]}] }
+          it {
+            is_expected.to include products: [
+              {sku: request.data[:latest_receipt_info][:product_id],
+               purchased: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]),
+               expiration: DateTime.parse(request.data[:latest_receipt_info][:expires_date_formatted]),},
+            ]
+          }
           it {
             is_expected.to include customer: {
               id: request.data[:latest_receipt_info][:original_transaction_id],
@@ -55,7 +61,15 @@ module Compensated
           it { is_expected.to include raw_event_id: request.data[:latest_receipt_info][:transaction_id] }
           it { is_expected.to include payment_processor: :apple_iap }
           it { is_expected.not_to have_key(:amount) }
-          it { is_expected.to include products: [{sku: request.data[:latest_receipt_info][:product_id]}] }
+          it {
+            is_expected.to include products: [
+              {
+                sku: request.data[:latest_receipt_info][:product_id],
+                purchased: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]),
+                expiration: DateTime.parse(request.data[:latest_receipt_info][:expires_date_formatted]),
+              },
+            ]
+          }
           it {
             is_expected.to include customer: {
               id: request.data[:latest_receipt_info][:original_transaction_id],
@@ -76,7 +90,9 @@ module Compensated
 
           it {
             is_expected.to include products:
-              [{sku: request.data[:latest_receipt_info][:product_id]}]
+              [{sku: request.data[:latest_receipt_info][:product_id],
+                purchased: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]),
+                expiration: DateTime.parse(request.data[:latest_receipt_info][:expires_date_formatted]),}]
           }
 
           it {
@@ -84,6 +100,7 @@ module Compensated
               id: request.data[:latest_receipt_info][:original_transaction_id],
             }
           }
+          it { is_expected.to include timestamp: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]) }
         end
 
         context "when the input event is JSON parsed from a apple_iap invoice.payment_succeeded event from apple_iap" do
@@ -94,7 +111,9 @@ module Compensated
           it { is_expected.to include payment_processor: :apple_iap }
           it {
             is_expected.to include products:
-              [{sku: request.data[:latest_expired_receipt_info][:product_id]}]
+              [{sku: request.data[:latest_expired_receipt_info][:product_id],
+                purchased: DateTime.parse(request.data[:latest_expired_receipt_info][:purchase_date]),
+                expiration: DateTime.parse(request.data[:latest_expired_receipt_info][:expires_date_formatted]),}]
           }
 
           it { is_expected.not_to have_key(:amount) }
@@ -103,6 +122,7 @@ module Compensated
               id: request.data[:latest_expired_receipt_info][:original_transaction_id],
             }
           }
+          it { is_expected.to include timestamp: DateTime.parse(request.data[:auto_renew_status_change_date]) }
         end
       end
     end
