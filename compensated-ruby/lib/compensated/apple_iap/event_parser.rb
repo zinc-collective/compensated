@@ -18,8 +18,12 @@ module Compensated
           payment_processor: :apple_iap,
           customer: customer(data),
           products: products(data),
-          timestamp: DateTime.parse(receipt_data(data)[:purchase_date]),
+          timestamp: timestamp(data),
         }.compact
+      end
+
+      def timestamp(data)
+        DateTime.parse(data[:auto_renew_status_change_date] || receipt_data(data)[:purchase_date])
       end
 
       def receipt_data(data)
@@ -28,8 +32,11 @@ module Compensated
 
       def products(data)
         [
-          {sku: receipt_data(data)[:product_id],
-           expiration: DateTime.parse(receipt_data(data)[:expires_date_formatted]),},
+          {
+            sku: receipt_data(data)[:product_id],
+            purchased: DateTime.parse(receipt_data(data)[:purchase_date]),
+            expiration: DateTime.parse(receipt_data(data)[:expires_date_formatted]),
+          },
         ]
       end
 
