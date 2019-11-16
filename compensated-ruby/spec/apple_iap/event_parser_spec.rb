@@ -28,6 +28,16 @@ module Compensated
           let(:request) { fake_request("did-change-renewal-status.json") }
           it { is_expected.to eql true }
         end
+
+        context "when the input event is JSON parsed from an INITIAL_BUY event from apple" do
+          let(:request) { fake_request("initial-buy.json") }
+          it { is_expected.to eql true }
+        end
+
+        context "when the input event is JSON parsed from an RENEWAL event from apple" do
+          let(:request) { fake_request("renewal.json") }
+          it { is_expected.to eql true }
+        end
       end
 
       describe "#normalize(data)" do
@@ -84,6 +94,52 @@ module Compensated
           let(:request) { fake_request("interactive-renewal.json") }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
           it { is_expected.to include raw_event_type: :INTERACTIVE_RENEWAL }
+          it { is_expected.to include raw_event_id: request.data[:latest_receipt_info][:transaction_id] }
+          it { is_expected.to include payment_processor: :apple_iap }
+          it { is_expected.not_to have_key(:amount) }
+
+          it {
+            is_expected.to include products:
+              [{sku: request.data[:latest_receipt_info][:product_id],
+                purchased: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]),
+                expiration: DateTime.parse(request.data[:latest_receipt_info][:expires_date_formatted]),}]
+          }
+
+          it {
+            is_expected.to include customer: {
+              id: request.data[:latest_receipt_info][:original_transaction_id],
+            }
+          }
+          it { is_expected.to include timestamp: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]) }
+        end
+
+        context "when the input event is JSON parsed from a apple_iap RENEWAL event from apple_iap" do
+          let(:request) { fake_request("renewal.json") }
+          it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
+          it { is_expected.to include raw_event_type: :RENEWAL }
+          it { is_expected.to include raw_event_id: request.data[:latest_receipt_info][:transaction_id] }
+          it { is_expected.to include payment_processor: :apple_iap }
+          it { is_expected.not_to have_key(:amount) }
+
+          it {
+            is_expected.to include products:
+              [{sku: request.data[:latest_receipt_info][:product_id],
+                purchased: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]),
+                expiration: DateTime.parse(request.data[:latest_receipt_info][:expires_date_formatted]),}]
+          }
+
+          it {
+            is_expected.to include customer: {
+              id: request.data[:latest_receipt_info][:original_transaction_id],
+            }
+          }
+          it { is_expected.to include timestamp: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]) }
+        end
+
+        context "when the input event is JSON parsed from a apple_iap INITIAL_BUY event from apple_iap" do
+          let(:request) { fake_request("initial-buy.json") }
+          it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
+          it { is_expected.to include raw_event_type: :INITIAL_BUY }
           it { is_expected.to include raw_event_id: request.data[:latest_receipt_info][:transaction_id] }
           it { is_expected.to include payment_processor: :apple_iap }
           it { is_expected.not_to have_key(:amount) }
