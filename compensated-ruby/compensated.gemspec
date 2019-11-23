@@ -10,7 +10,8 @@ Gem::Specification.new do |spec|
 
   spec.summary = "Provide value (In Ruby!). Get paid."
   spec.description = "Compensated makes handling transactions slightly less of a nightmare."
-  spec.homepage = "https://github.com/zinc-technology/compensated"
+  spec.homepage = "https://github.com/zinc-collective/compensated"
+  spec.license = "The Prosperity Public License"
 
   # Prevent pushing this gem to RubyGems.org. To allow pushes either set the 'allowed_push_host'
   # to allow pushing to a single host or delete this section to allow pushing to any host.
@@ -18,8 +19,8 @@ Gem::Specification.new do |spec|
     # spec.metadata["allowed_push_host"] = "TODO: Set to 'http://mygemserver.com'"
 
     spec.metadata["homepage_uri"] = spec.homepage
-    spec.metadata["source_code_uri"] = "https://github.com/zinc-technology/compensated"
-    spec.metadata["changelog_uri"] = "https://github.com/zinc-technology/compensated/primary/CHANGELOG.md"
+    spec.metadata["source_code_uri"] = "https://github.com/zinc-collective/compensated"
+    spec.metadata["changelog_uri"] = "https://github.com/zinc-collective/compensated/primary/CHANGELOG.md"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."
