@@ -1,7 +1,7 @@
 require "compensated/event_parser"
 module Compensated
   module Stripe
-    SUPPORTED_EVENTS = %w[charge.succeeded invoice.payment_succeeded]
+    SUPPORTED_EVENTS = %w[charge.succeeded invoice.payment_succeeded invoice.payment_failed]
     class EventParser < Compensated::EventParser
       def parses?(request)
         return false if request.nil? || request.empty?
