@@ -9,3 +9,6 @@
 
 # rspec failure tracking
 .rspec_status
+
+# Gems need to work across a variety of versions
+Gemfile.lock
