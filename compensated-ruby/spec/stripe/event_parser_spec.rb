@@ -24,6 +24,11 @@ module Compensated
           it { is_expected.to eql true }
         end
 
+        context "when the input event is JSON parsed from a stripe customer.subscription.deleted event from Stripe API v2019-12-03" do
+          let(:request) { fake_request("customer.subscription.deleted.api-v2019-12-03.json") }
+          it { is_expected.to eql true }
+        end
+
         context "when the input event is JSON parsed from a stripe invoice payment succeeded event from Stripe API v2014-11-05" do
           let(:request) { fake_request("invoice.payment_succeeded.api-v2014-11-05.json") }
           it { is_expected.to eql true }
@@ -165,6 +170,19 @@ module Compensated
           it {
             is_expected.to include customer: {
               id: "cus_GNyhubbpJ6cYQM"
+            }
+          }
+        end
+
+        context "when the input event is JSON parsed from a Stripe customer.subscription.deleted event from Stripe API v2019-12-03" do
+          let(:request) { fake_request("customer.subscription.deleted.api-v2019-12-03.json") }
+          it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
+          it { is_expected.to include raw_event_type: :"customer.subscription.deleted" }
+          it { is_expected.to include raw_event_id: request.data[:id] }
+          it { is_expected.to include payment_processor: :stripe }
+          it {
+            is_expected.to include customer: {
+              id: "cus_fake_customer"
             }
           }
         end
