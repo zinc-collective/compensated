@@ -6,7 +6,7 @@ Gem::Specification.new do |spec|
   spec.name = "compensated"
   spec.version = Compensated::VERSION
   spec.authors = ["Zee"]
-  spec.email = ["zee@zincma.de"]
+  spec.email = ["zee@zinc.coop"]
 
   spec.summary = "Provide value (In Ruby!). Get paid."
   spec.description = "Compensated makes handling transactions slightly less of a nightmare."
