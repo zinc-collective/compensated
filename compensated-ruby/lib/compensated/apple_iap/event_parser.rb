@@ -36,7 +36,8 @@ module Compensated
             sku: receipt_data(data)[:product_id],
             purchased: DateTime.parse(receipt_data(data)[:purchase_date]),
             expiration: DateTime.parse(receipt_data(data)[:expires_date_formatted]),
-          },
+            cancelled: cancellation_date(data),
+          }.compact,
         ]
       end
 
@@ -44,6 +45,13 @@ module Compensated
         {
           id: receipt_data(data)[:original_transaction_id],
         }
+      end
+
+      private
+
+      def cancellation_date(data)
+        return unless receipt_data(data)[:cancellation_date]
+        DateTime.parse(receipt_data(data)[:cancellation_date])
       end
     end
   end

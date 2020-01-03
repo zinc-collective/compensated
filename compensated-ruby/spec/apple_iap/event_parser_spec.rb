@@ -112,9 +112,9 @@ module Compensated
             is_expected.to include products:
               [{sku: request.data[:latest_receipt_info][:product_id],
                 purchased: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]),
-                expiration: DateTime.parse(request.data[:latest_receipt_info][:expires_date_formatted]),}]
+                expiration: DateTime.parse(request.data[:latest_receipt_info][:expires_date_formatted]),
+                cancelled: DateTime.parse(request.data[:latest_receipt_info][:cancellation_date]),}]
           }
-          # TODO: Check for cancellation date
 
           it {
             is_expected.to include customer: {
