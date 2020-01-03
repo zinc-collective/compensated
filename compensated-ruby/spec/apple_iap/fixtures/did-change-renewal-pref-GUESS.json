@@ -1,0 +1,33 @@
+{
+  "latest_receipt": "nothing-to-see-here-atm",
+  "latest_receipt_info": {
+    "original_purchase_date_pst": "2019-12-26 08:06:38 America/Los_Angeles",
+    "quantity": "1",
+    "subscription_group_identifier": "20543702",
+    "unique_vendor_identifier": "unique-vendor-guid-1234",
+    "original_purchase_date_ms": "1577376398000",
+    "expires_date_formatted": "2020-01-02 05:01:53 Etc/GMT",
+    "is_in_intro_offer_period": "false",
+    "purchase_date_ms": "1577941013000",
+    "expires_date_formatted_pst": "2020-01-01 21:01:53 America/Los_Angeles",
+    "is_trial_period": "false",
+    "item_id": "1476432328",
+    "unique_identifier": "unique-id-90823",
+    "original_transaction_id": "original-transaction-id-1234",
+    "expires_date": "1577941313000",
+    "transaction_id": "1000000610489898",
+    "bvrs": "19",
+    "web_order_line_item_id": "1000000049267741",
+    "version_external_identifier": "0",
+    "bid": "com.example.Compensated-Staging",
+    "product_id": "com.example.Compensated_Staging.plus.monthly",
+    "purchase_date": "2020-01-02 04:56:53 Etc/GMT",
+    "purchase_date_pst": "2020-01-01 20:56:53 America/Los_Angeles",
+    "original_purchase_date": "2019-12-26 16:06:38 Etc/GMT"
+  },
+  "environment": "Sandbox",
+  "auto_renew_status": "true",
+  "password": "abcdefghijklmnop",
+  "auto_renew_product_id": "com.example.Compensated_Staging.plus.monthly",
+  "notification_type": "DID_CHANGE_RENEWAL_PREF"
+}
