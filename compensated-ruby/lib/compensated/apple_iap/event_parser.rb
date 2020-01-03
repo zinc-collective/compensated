@@ -2,7 +2,7 @@ require "compensated/event_parser"
 module Compensated
   module AppleIap
     class EventParser < Compensated::EventParser
-      SUPPORTED_TYPES = ["DID_RECOVER", "INTERACTIVE_RENEWAL", "RENEWAL", "INITIAL_BUY", "DID_CHANGE_RENEWAL_STATUS"]
+      SUPPORTED_TYPES = ["CANCEL", "DID_RECOVER", "INTERACTIVE_RENEWAL", "RENEWAL", "INITIAL_BUY", "DID_CHANGE_RENEWAL_STATUS"]
       def parses?(request)
         return false unless request.data
         request.data[:notification_type] &&

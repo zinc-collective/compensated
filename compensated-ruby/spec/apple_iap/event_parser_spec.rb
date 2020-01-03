@@ -24,6 +24,11 @@ module Compensated
           it { is_expected.to eql true }
         end
 
+        context "when the input event is JSON parsed from a cancel event from apple" do
+          let(:request) { fake_request("cancel-GUESS.json") }
+          it { is_expected.to eql true }
+        end
+
         context "when the input event is JSON parsed from a did-change-renewal-status event from apple" do
           let(:request) { fake_request("did-change-renewal-status.json") }
           it { is_expected.to eql true }
@@ -95,6 +100,30 @@ module Compensated
 
       describe "#parse(request)" do
         subject(:event) { event_parser.parse(request) }
+        context "when the input event is JSON parsed from a apple_iap CANCEL event from apple_iap" do
+          let(:request) { fake_request("cancel-GUESS.json") }
+          it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
+          it { is_expected.to include raw_event_type: :CANCEL }
+          it { is_expected.to include raw_event_id: request.data[:latest_receipt_info][:transaction_id] }
+          it { is_expected.to include payment_processor: :apple_iap }
+          it { is_expected.not_to have_key(:amount) }
+
+          it {
+            is_expected.to include products:
+              [{sku: request.data[:latest_receipt_info][:product_id],
+                purchased: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]),
+                expiration: DateTime.parse(request.data[:latest_receipt_info][:expires_date_formatted]),}]
+          }
+          # TODO: Check for cancellation date
+
+          it {
+            is_expected.to include customer: {
+              id: request.data[:latest_receipt_info][:original_transaction_id],
+            }
+          }
+          it { is_expected.to include timestamp: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]) }
+        end
+
         context "when the input event is JSON parsed from a apple_iap DID_RECOVER event from apple_iap" do
           let(:request) { fake_request("did-recover.json") }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
