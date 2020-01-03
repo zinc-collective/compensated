@@ -34,6 +34,11 @@ module Compensated
           it { is_expected.to eql true }
         end
 
+        context "when the input event is JSON parsed from a did-fail-to-renew event from apple" do
+          let(:request) { fake_request("did-fail-to-renew-GUESS.json") }
+          it { is_expected.to eql true }
+        end
+
         context "when the input event is JSON parsed from an INITIAL_BUY event from apple" do
           let(:request) { fake_request("initial-buy.json") }
           it { is_expected.to eql true }
@@ -114,6 +119,29 @@ module Compensated
                 purchased: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]),
                 expiration: DateTime.parse(request.data[:latest_receipt_info][:expires_date_formatted]),
                 cancelled: DateTime.parse(request.data[:latest_receipt_info][:cancellation_date]),}]
+          }
+
+          it {
+            is_expected.to include customer: {
+              id: request.data[:latest_receipt_info][:original_transaction_id],
+            }
+          }
+          it { is_expected.to include timestamp: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]) }
+        end
+
+        context "when the input event is JSON parsed from a apple_iap DID_FAIL_TO_RENEW event from apple_iap" do
+          let(:request) { fake_request("did-fail-to-renew-GUESS.json") }
+          it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
+          it { is_expected.to include raw_event_type: :DID_FAIL_TO_RENEW }
+          it { is_expected.to include raw_event_id: request.data[:latest_receipt_info][:transaction_id] }
+          it { is_expected.to include payment_processor: :apple_iap }
+          it { is_expected.not_to have_key(:amount) }
+
+          it {
+            is_expected.to include products:
+              [{sku: request.data[:latest_receipt_info][:product_id],
+                purchased: DateTime.parse(request.data[:latest_receipt_info][:purchase_date]),
+                expiration: DateTime.parse(request.data[:latest_receipt_info][:expires_date_formatted]),}]
           }
 
           it {
