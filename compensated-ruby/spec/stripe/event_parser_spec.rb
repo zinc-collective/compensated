@@ -151,6 +151,17 @@ module Compensated
               email: "customer@example.com"
             }
           }
+          it {
+            request.data[:data][:object][:status_transitions]
+            is_expected.to include products: [
+              {
+                sku: request.data[:data][:object][:lines][:data][0][:plan][:product],
+                purchased: Time.at(request.data[:data][:object][:status_transitions][:paid_at]),
+                expiration: Time.at(request.data[:data][:object][:lines][:data][0][:period][:end])
+               }
+          ]
+        }
+
         end
 
         context "when the input event is JSON parsed from a Stripe invoice.payment_failed event from Stripe API v2019-12-03" do
