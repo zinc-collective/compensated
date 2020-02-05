@@ -17,6 +17,7 @@ module Compensated
           payment_processor: :stripe,
           amount: amount(data),
           customer: customer(data),
+          products: products(data),
           timestamp: Time.at(data[:created]),
         }
       end
@@ -33,6 +34,37 @@ module Compensated
             id: data[:data][:object][:customer],
           }
         end
+      end
+
+      private def products(data)
+        if invoice?(data)
+          data[:data][:object][:lines][:data].map do |line|
+            value = product(line, data)
+            next if value.nil? || value.empty?
+            value
+          end
+        end
+      end
+
+      private def product(line, data)
+        return nil if line.nil? || line.empty?
+        {
+          sku: sku(line),
+          purchased: purchased(data),
+          expiration: Time.at(line[:period][:end])
+        }.compact
+      end
+
+      private def sku(line)
+        plan = line.fetch(:plan, {})
+        return nil if plan.nil?
+        plan.fetch(:product, nil)
+      end
+
+      private def purchased(data)
+        string = data[:data][:object][:status_transitions][:paid_at]
+        return nil if string.nil?
+        Time.at(string)
       end
 
       private def amount(data)
