@@ -145,6 +145,13 @@ module Compensated
               currency: "USD",
             }
           }
+
+          it {
+            is_expected.to include invoice: {
+              id: request.data[:data][:object][:id],
+              created: Time.at(request.data[:data][:object][:created])
+            }
+          }
           it {
             is_expected.to include customer: {
               id: "cus_fake_customer",
@@ -152,7 +159,6 @@ module Compensated
             }
           }
           it {
-            request.data[:data][:object][:status_transitions]
             is_expected.to include products: [
               {
                 sku: request.data[:data][:object][:lines][:data][0][:plan][:product],
@@ -160,6 +166,9 @@ module Compensated
                 expiration: Time.at(request.data[:data][:object][:lines][:data][0][:period][:end]),
                 description: request.data[:data][:object][:lines][:data][0][:description],
                 quantity: request.data[:data][:object][:lines][:data][0][:quantity],
+                subscription: {
+                  id: request.data[:data][:object][:lines][:data][0][:subscription]
+                },
                 plan: {
                   sku: request.data[:data][:object][:lines][:data][0][:plan][:id],
                   name: request.data[:data][:object][:lines][:data][0][:plan][:nickname],

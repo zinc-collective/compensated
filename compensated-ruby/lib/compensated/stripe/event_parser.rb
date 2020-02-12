@@ -17,11 +17,19 @@ module Compensated
           payment_processor: :stripe,
           amount: amount(data),
           customer: customer(data),
+          invoice: invoice(data),
           products: products(data),
           timestamp: Time.at(data[:created]),
         }
       end
 
+      private def invoice(data)
+        return nil unless invoice?(data)
+        {
+          id: data[:data][:object][:id],
+          created: Time.at(data[:data][:object][:created])
+        }
+      end
       private def customer(data)
         if invoice?(data)
           {
@@ -54,11 +62,16 @@ module Compensated
           description: line[:description],
           quantity: line[:quantity],
           expiration: Time.at(line[:period][:end]),
-          plan: plan(line, data)
+          subscription: subscription(line),
+          plan: plan(line)
         }.compact
       end
 
-      private def plan(line, data)
+      private def subscription(line)
+        { id: line[:subscription] }.compact
+      end
+
+      private def plan(line)
         return nil unless line[:plan] && line[:plan].respond_to?(:[])
         {
           sku: line[:plan][:id],
