@@ -51,7 +51,22 @@ module Compensated
         {
           sku: sku(line),
           purchased: purchased(data),
-          expiration: Time.at(line[:period][:end])
+          description: line[:description],
+          quantity: line[:quantity],
+          expiration: Time.at(line[:period][:end]),
+          plan: plan(line, data)
+        }.compact
+      end
+
+      private def plan(line, data)
+        return nil unless line[:plan] && line[:plan].respond_to?(:[])
+        {
+          sku: line[:plan][:id],
+          name: line[:plan][:nickname],
+          interval: {
+            period: line[:plan][:interval],
+            count: line[:plan][:interval_count]
+          }.compact
         }.compact
       end
 

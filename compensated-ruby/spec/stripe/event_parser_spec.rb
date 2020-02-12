@@ -157,8 +157,18 @@ module Compensated
               {
                 sku: request.data[:data][:object][:lines][:data][0][:plan][:product],
                 purchased: Time.at(request.data[:data][:object][:status_transitions][:paid_at]),
-                expiration: Time.at(request.data[:data][:object][:lines][:data][0][:period][:end])
-               }
+                expiration: Time.at(request.data[:data][:object][:lines][:data][0][:period][:end]),
+                description: request.data[:data][:object][:lines][:data][0][:description],
+                quantity: request.data[:data][:object][:lines][:data][0][:quantity],
+                plan: {
+                  sku: request.data[:data][:object][:lines][:data][0][:plan][:id],
+                  name: request.data[:data][:object][:lines][:data][0][:plan][:nickname],
+                  interval: {
+                    period: request.data[:data][:object][:lines][:data][0][:plan][:interval],
+                    count: request.data[:data][:object][:lines][:data][0][:plan][:interval_count]
+                  }
+                }
+              }
           ]
         }
 
