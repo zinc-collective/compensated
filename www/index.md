@@ -1,26 +1,38 @@
 # Compensated
+
 Build products. Get paid.
 
+## Why Use Compensated
 
-### Expand Your Sales Channels
-You started with a website, and now you have an iOS app.
-And oh yea, there’s that old Gumroad storefront you were experimenting with that has some recurring payments set up.
+Services like Stripe, Gumroad, Paypal, Apple Pay and other payment processors go a long way towards creating powerful, useful APIs for handling financial transactions.
+However, implementing their APIs directly can make it expensive to switch or add vendors.
 
-No matter how you get (or got!) paid, Compensated standardizes the different payment processers data structures and event types so you can add sales channels without losing momentum on your customer facing features.
+On the other hand, implementing a layer of indirection to mitigate that cost takes time and energy. Each provider uses different data structures with different design priorities and different event sequences.
 
-### Prevent Vendor Lock-In
-Tired of your current payment providers fee structure?
-Sick of the weird refund policy that locks your account?
+Compensated provides that layer of indirection for you, so you can focus on creating value for your customers.
 
-Compensated helps you safely transition your customers to new payment processors without requiring system rewrites.
+## How Compensated Works
+
+Compensated is a Ruby gem that you can include directly in your existing Ruby projects, or host as a thin adapter to normalize events as they stream in. Think of it like [Nylas](https://www.nylas.com/), [Yodlee](https://www.yodlee.com/), [Plaid](https://plaid.com/), or [Griddler](https://github.com/thoughtbot/griddler); but for getting paid.
+
+Compensated early alpha, with a few production installations. You can [reach out][contact-email] with your use case and we'll happily weigh in on if it could work for you.
+
+## Get Compensated
+
+### Buy a License
+
+Buying a license while Compensated is in its alpha period locks your price in to $500 per year, forever. You can make the purchase by [emailing us directly][contact-email].
+
+### Free or Paid Support
+
+You can open an issue in our [issue tracker][issue-tracker], [reach out][contact-email] for direct support, or schedule a one hour pair programming session with one of the maintainers, currently $85 for the first hour.
 
 ### Read the Source, Luke
-All our source code is publicly available.
-We build in the open, and grant usage rights freely to any and all individuals. 
-But we are _not_ Open Source.
-We require organizations to acquire a license so that we have legal standing to refuse to grant usage rights to organizations that violate human rights.
 
-## How It Works
-### 1. Install Compensated into your application
-### 2. Wire it in to your existing payment event handling code
-### 3. Profit!
+All our [source code][source-code] is publicly available. But we are _not_ Open Source.
+We require a paid license for commercial use so that we can continue to maintain and update the software.
+This constraint also allows us to refuse to grant a license to organizations that violate human rights.
+
+[issue-tracker]: https://github.com/zinc-collective/compensated/issues
+[contact-email]: mailto:info+compensated@zinc.coop
+[source-code]: https://github.com/zinc-collective/compensated
