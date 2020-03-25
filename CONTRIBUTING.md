@@ -12,9 +12,9 @@ interpreted as described in [RFC 2119][rfc-2119].
 - Contributors _must_ comply with our [code of conduct][code-of-conduct].
 - Contributors _must_ [assign ownership][assign-ownership] of their
   contributions to Zinc.
-- Contributors _must not_ commit directly to the 0.X, 1.X or 2.X branches.
+- Contributors _must not_ commit directly to the `0.X`, `1.X` or `2.X` branches.
 - Contributors _should_ [ask for help][get-help] when they get stuck.
-- Contributors _may_ build on top of other Contributors un-merged branches.
+- Contributors _may_ build on top of other Contributors' branches.
 
 ### Maintainer Ground Rules
 
@@ -46,6 +46,12 @@ If you have an idea for what that documentation would look like, you can [use
 the built in GitHub editor][editing-files-in-github] to [suggest a change using
 a pull request!][creating-a-pull-request]
 
+### Translations?
+
+At present, we do not have a strategy for internationalization of the
+documentation and any user interface components. Suggestions would be
+appreciated in our [issue tracker][issue-tracker].
+
 ### Bug fixes?
 
 We consider any gaps between what you _expected_ Compensated to do and what it
@@ -53,8 +59,8 @@ _actually did_ to be a bug. It makes it easier for us to fix things when bug
 reports clearly express what was expected and what actually happened.
 
 But don't let that stop you! We'd prefer to hear about what was surprising even
-if you can't reproduce it or would need help figuring out how to communicate the
-issue effectively.
+if you can't reproduce it or would want help to figure out how to communicate
+the issue effectively.
 
 If you notice something weird when working in Compensated; please [open a ticket
 in our issue tracker][issue-tracker]. We'll do our best to prioritize fixing
@@ -95,17 +101,21 @@ bug or enhance a feature.
 
 If you have an idea of what change you would like to make, start [learning the
 system][learn-the-system]. If you are already comfortable with Compensated's
-product design and arhictecture, you can [start working on the
+product design and architecture, you can [start working on the
 change][making-a-change]. For everyone else, let's [find something to
 do!][find-something-to-do]
 
 ### Find Something To Do
 
-Look at the open tickets in our [issue tracker][issue-tracker]. Items labeled
-"Help Wanted" are where we would appreciate some help. Items labeled "Good First
-Issue" are where we think new contributors would be able to chip in effectively.
-If there aren't any labeled with these two things; feel free to pick something
-else!
+In general, we encourage contributors to _"eat their own dog food"_ and make
+contributions that are immediately useful to them. If you are unable to come up
+with anything, we recommend taking a Look at the open tickets in our [issue
+tracker][issue-tracker].
+
+Items labeled "Help Wanted" are where we would appreciate some help. Items
+labeled "Good First Issue" are where we think new contributors would be able to
+chip in effectively. If there aren't any labeled with these two things; feel
+free to pick something else!
 
 Now that you've got something to do,
 
@@ -122,15 +132,15 @@ underlying mental models.
 First, [review the dependencies][dependencies] and make sure you have installed
 all the tools you need to start working.
 
-You may also run `bin/setup` from the top level directory or a project specific
-directory and we will do our best to install the dependencies for your system.
-If that doesn't work, read the source of `bin/setup` and the contents of the
-nearest README to try and get it working; and then [ask for help][get-help]
+You may also run `bin/setup` from the top-level directory or a project specific
+directory. We will do our best to install the dependencies for your system. If
+that doesn't work, read the source of `bin/setup` and the contents of the
+nearest README to get it working; and then [ask for help][get-help]
 
 We encourage people to start off by writing a test that demonstrates the bug
 they are attempting to fix or the use case they want to add.
 
-Tests are ran by running `bin/test` within the top level directory or a
+Run tests by executing `bin/test` within the top-level directory or a
 project-specific folder.
 
 Ideally, there are at least two tests, a ["unit" test and a "system"
@@ -160,16 +170,10 @@ feel free to name your branches in the way that feels most comfortable to you.
 
 Compensated uses a proprietary license for commercial use. This ensures we can
 maintain the library and related services over the long haul, as well as gives
-us the right to deny a license to organizations who we do not want to allow to
-benefit from our labor.
+us the right to deny a license to organizations who we do not want benefiting
+from our labor.
 
 ### Assignment of Ownership to Zinc Collective
-
-In order to unambiguosly own and sell Compensated as a commercial product, Zinc
-must have the copyright associated with the entire codebase. Any code you create
-which is merged must be owned by Zinc. We're not trying to be a jerk, it's the
-way it works. (Shamelessly lifted from [SideKiq Pro's Commercial Collaboration
-Guide][sidekiq-pro-commercial-collaboration])
 
 Before we can merge patches, we will need you to grant us all rights to the work
 you perform on Compensated to Zinc. You can do this by sending "I assign all
@@ -177,7 +181,34 @@ rights, including copyright, to any future Compensated work by myself to Zinc
 Collective LLC." to [the maintainer mailing list][email-maintainers] or as a
 comment on your [patch][creating-a-pull-request].
 
+### Why Do I Have to Assign Ownership to Zinc Collective
+
+There are several reasons:
+
+1. Compliance with regulation.
+2. Clear lines of responsibility and accountability for commercial purposes.
+3. Long term maintainability.
+
+#### Compliance with Regulation
+
+There are a number of compliance requirements that people receiving financial
+transactions must conform to. For instance, any suspicious activity of
+individual transaction >\$10k needs to be reported to
+[Financial Crimes Enforcement Network](https://www.fincen.gov). When the
+ownership license, terms of use, and warranty of the intellectual property in
+the payments' logistics chain is clear and unambiguous, it mitigates users risk
+when fulfilling compliance requirements.
+
+#### Clear Lines of Responsibility and Accountability for Commercial purposes
+
+In order to own and sell Compensated as a commercial product, Zinc must have the
+copyright associated with the entire code base. Any code you create which is
+merged must be owned by Zinc. We're not trying to be a jerk, it's the way it
+works. (Shamelessly lifted from [SideKiq Pro's Commercial Collaboration
+Guide][sidekiq-pro-commercial-collaboration])
+
 [development-workflow]: #development-guide
+[dependencies]: ./README.md#dependencies
 [find-something-to-do]: #find-something-to-do
 [learn-the-system]: #learn-the-system
 [making-a-change]: #make-a-change
@@ -201,3 +232,5 @@ comment on your [patch][creating-a-pull-request].
   https://github.com/mperham/sidekiq/wiki/Commercial-collaboration
 [unit-and-system-tests]:
   http://softwaretestingfundamentals.com/software-testing-levels/
+[open-source business models]:
+  https://pubsonline.informs.org/doi/abs/10.1287/mnsc.1060.0547
