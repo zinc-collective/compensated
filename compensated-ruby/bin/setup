@@ -21,8 +21,8 @@ if [ -z ${CI+x} ]; then
   # Install ruby and bundler if they are not installed
   if [ ! -z ${RBENV_VERSION+x} ]; then
     rbenv install -s $RBENV_VERSION
-    gem install bundler
   fi
 fi
+gem install bundler
 # Install the gems for compensated-ruby
 bundle install
