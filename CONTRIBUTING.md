@@ -214,8 +214,8 @@ Guide][sidekiq-pro-commercial-collaboration])
 [making-a-change]: #make-a-change
 [get-help]: #getting-help
 [assign-ownership]: #assignment-of-ownership-to-zinc-collective
-[architecture-documentation]: ./design/ARCHITECTURE.md
-[product-documentation]: ./design/README.md
+[architecture-documentation]: ./docs/ARCHITECTURE.md
+[product-documentation]: ./docs/README.md
 [code-of-conduct]: ./CODE_OF_CONDUCT.md
 [compensated-maintainers]:
   https://github.com/orgs/zinc-collective/teams/compensated-maintainers
