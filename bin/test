@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+# Dispatches each module's full test suite
+
+# Configure the script to be verbose and fail early
+# See: https://ss64.com/bash/set.html
+# See: https://bash.cyberciti.biz/guide/$IFS
+set -euo pipefail
+IFS=$'\n\t'
+set -vx
+
+# Seam to conditionalize different behavior in CI and local
+if [ ! -z ${CI+x} ]; then
+  echo "Testing on CI, dispatch the compensated-ruby module's full test suite"
+  (cd compensated-ruby && bin/test)
+else
+  echo "Testing locally, dispatch the compensated-ruby module's full test suite"
+  (cd compensated-ruby && bin/test)
+fi

@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+# Dispatches compensated-ruby's full test suite in each supported Ruby versions
+
+# Configure the script to be verbose and fail early
+# See: https://ss64.com/bash/set.html
+# See: https://bash.cyberciti.biz/guide/$IFS
+set -euo pipefail
+IFS=$'\n\t'
+set -vx
+
+supported_versions=(2.3.7 2.4.9 2.5.7 2.6.5 2.7.0)
+for version in "${supported_versions[@]}" ; do
+  RBENV_VERSION=$version bin/test
+done
