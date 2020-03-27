@@ -1,4 +1,5 @@
 # Compensated
+[![Build Status](https://travis-ci.org/zinc-collective/compensated.svg?branch=0.X)](https://travis-ci.org/zinc-collective/compensated)
 
 Compensated makes it easier to get paid by your users. It listens for events from your payment processors and normalizes them so you only have to write your payment handling code once. Compensated has very few opinions about how your application is structured while providing affordances and guidance around consistent, reliable payment processing.
 
@@ -24,9 +25,11 @@ Compensated makes it easier to get paid by your users. It listens for events fro
 Compensated's architecture draws from prior art such as [griddler](https://github.com/thoughtbot/griddler), [omniauth](https://github.com/omniauth/omniauth) and [expressjs](https://expressjs.com/). The goal of the design is to enable functionality without imposing demands on structures.
 
 ## Contributing
-See [CONTRIBUTING.md](CONTRIBUTING.md)
 
+To get started, make sure you have [rbenv](https://github.com/rbenv/rbenv) installed, clone the repository and run `bin/setup-matrix` then run `bin/test-matrix`.
+
+For further guidance, See [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ## License
 While you may have access to this source code, it may not mean you are legally allowed to use it.
-See [LICENSE.md](LICENSE.md)
+See [LICENSE.md](LICENSE.md).
