@@ -9,17 +9,20 @@ set -euo pipefail
 IFS=$'\n\t'
 set -vx
 
-# Install ruby build if it's not installed yet
-if [ ! -d "$(rbenv root)/plugins" ]; then
-  echo "Installing ruby-build"
-  mkdir -p "$(rbenv root)"/plugins
-  git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
-fi
+# Only install Ruby locally, CI already has Ruby installed
+if [ -z ${CI+x} ]; then
+  # Install ruby build if it's not installed yet
+  if [ ! -d "$(rbenv root)/plugins" ]; then
+    echo "Installing ruby-build"
+    mkdir -p "$(rbenv root)"/plugins
+    git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+  fi
 
-# Install ruby and bundler if they are not installed
-if [ ! -z ${RBENV_VERSION+x} ]; then
-  rbenv install -s $RBENV_VERSION
-  gem install bundler
+  # Install ruby and bundler if they are not installed
+  if [ ! -z ${RBENV_VERSION+x} ]; then
+    rbenv install -s $RBENV_VERSION
+    gem install bundler
+  fi
 fi
 # Install the gems for compensated-ruby
 bundle install
