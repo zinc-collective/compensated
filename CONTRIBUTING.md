@@ -117,7 +117,7 @@ labeled "Good First Issue" are where we think new contributors would be able to
 chip in effectively. If there aren't any labeled with these two things; feel
 free to pick something else!
 
-Now that you've got something to do,
+Now that you've got something to do, [learn the system][learn-the-system].
 
 ### Learn the System
 
@@ -127,7 +127,7 @@ design][product-documentation] and [architecture
 documentation][architecture-documentation] to develop a firmer grasp of the
 underlying mental models.
 
-### Make a Change
+### Get It Running
 
 First, [review the dependencies][dependencies] and make sure you have installed
 all the tools you need to start working.
@@ -135,10 +135,16 @@ all the tools you need to start working.
 You may also run `bin/setup` from the top-level directory or a project specific
 directory. We will do our best to install the dependencies for your system. If
 that doesn't work, read the source of `bin/setup` and the contents of the
-nearest README to get it working; and then [ask for help][get-help]
+nearest README to get it working; and then [ask for help][get-help].
 
-We encourage people to start off by writing a test that demonstrates the bug
-they are attempting to fix or the use case they want to add.
+To prove everything works, run `bin/test` from the top-level directory.
+
+### Make The Change
+
+We use [GitHub Flow][github-flow] so we can support contributors effectively.
+Start by [creating a branch][basic-branching]. From there, we recommend writing
+a test that demonstrates the bug you are attempting to fix or the use case you
+want to add.
 
 Run tests by executing `bin/test` within the top-level directory or a
 project-specific folder.
@@ -234,3 +240,6 @@ Guide][sidekiq-pro-commercial-collaboration])
   http://softwaretestingfundamentals.com/software-testing-levels/
 [open-source business models]:
   https://pubsonline.informs.org/doi/abs/10.1287/mnsc.1060.0547
+[github-flow]: https://guides.github.com/introduction/flow/
+[basic-branching]:
+  https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
