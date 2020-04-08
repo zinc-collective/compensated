@@ -29,6 +29,11 @@ module Compensated
           it { is_expected.to eql true }
         end
 
+        context "when the input event is JSON parsed from a stripe customer.subscription.updated event from Stripe API v2019-12-03" do
+          let(:request) { fake_request("customer.subscription.updated.api-v2019-12-03.json") }
+          it { is_expected.to eql true }
+        end
+
         context "when the input event is JSON parsed from a stripe invoice payment succeeded event from Stripe API v2014-11-05" do
           let(:request) { fake_request("invoice.payment_succeeded.api-v2014-11-05.json") }
           it { is_expected.to eql true }
