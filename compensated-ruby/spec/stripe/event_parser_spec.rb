@@ -2,12 +2,10 @@ require "compensated/stripe"
 module Compensated
   module Stripe
     RSpec.describe EventParser do
-      include Compensated::Fixtures::TemplateHelpers
-      let(:interpolate) {  {} }
-      def fake_request(fixture, interpolate: {})
-        body = template(__dir__, fixture, interpolate: interpolate)
-        PaymentProcessorEventRequest.new(double(form_data?: false, body: body))
-      end
+      include Compensated::Spec::Helpers
+      let(:interpolate) { {} }
+      let(:template_file_path) { fixture_path(__dir__, fixture) }
+      let(:request) { fake_request(template_file_path, interpolate: interpolate) }
 
       it "Adds itself to the list of event parses available to compensated" do
         expect(Compensated.event_parsers.find { |ep| ep.instance_of?(Stripe::EventParser) }).not_to be_nil
@@ -17,44 +15,44 @@ module Compensated
       describe "#parses?(request)" do
         subject(:parses?) { event_parser.parses?(request) }
         context "when the request body is nil" do
-          let(:request) { fake_request(nil) }
+          let(:request) { PaymentProcessorEventRequest.new(double(form_data?: false, body: nil)) }
           it { is_expected.to eql false }
         end
 
         context "when the input event is JSON parsed from a stripe charge.succeded event from Stripe API v2014-11-05" do
-          let(:request) { fake_request("charge.succeeded.api-v2014-11-05.json") }
+          let(:fixture) { "charge.succeeded.api-v2014-11-05.json" }
           it { is_expected.to eql true }
         end
 
         context "when the input event is JSON parsed from a stripe customer.subscription.deleted event from Stripe API v2019-12-03" do
-          let(:request) { fake_request("customer.subscription.deleted.api-v2019-12-03.json") }
+          let(:fixture) { "customer.subscription.deleted.api-v2019-12-03.json" }
           it { is_expected.to eql true }
         end
 
         context "when the input event is JSON parsed from a stripe customer.subscription.updated event from Stripe API v2019-12-03" do
-          let(:request) { fake_request("customer.subscription.updated.api-v2019-12-03.json") }
+          let(:fixture) { "customer.subscription.updated.api-v2019-12-03.json" }
           it { is_expected.to eql true }
         end
 
         context "when the input event is JSON parsed from a stripe invoice payment succeeded event from Stripe API v2014-11-05" do
-          let(:request) { fake_request("invoice.payment_succeeded.api-v2014-11-05.json") }
+          let(:fixture) { "invoice.payment_succeeded.api-v2014-11-05.json" }
           it { is_expected.to eql true }
         end
 
         context "when the input event is JSON parsed from a stripe invoice.payment_succeeded event from Stripe API v2019-12-03" do
-          let(:request) { fake_request("invoice.payment_succeeded.api-v2019-12-03.json") }
+          let(:fixture) { "invoice.payment_succeeded.api-v2019-12-03.json" }
           it { is_expected.to eql true }
         end
 
         context "when the input event is JSON parsed from a stripe invoice.payment_failed event from Stripe API v2019-12-03" do
-          let(:request) { fake_request("invoice.payment_failed.api-v2019-12-03.json") }
+          let(:fixture) { "invoice.payment_failed.api-v2019-12-03.json" }
           it { is_expected.to eql true }
         end
       end
 
       describe "#normalize(data)" do
         subject(:data) { event_parser.normalize(input) }
-        let(:request) { fake_request("charge.succeeded.api-v2014-11-05.json") }
+        let(:fixture) { "charge.succeeded.api-v2014-11-05.json" }
         context "when the input is a string of the body" do
           let(:input) { request.body.read }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
@@ -98,7 +96,7 @@ module Compensated
       describe "#parse(request)" do
         subject(:event) { event_parser.parse(request) }
         context "when the input event is JSON parsed from a Stripe charge.succeeded event from Stripe API v2014-11-05" do
-          let(:request) { fake_request("charge.succeeded.api-v2014-11-05.json") }
+          let(:fixture) { "charge.succeeded.api-v2014-11-05.json" }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
           it { is_expected.to include raw_event_type: :"charge.succeeded" }
           it { is_expected.to include raw_event_id: request.data[:id] }
@@ -117,7 +115,7 @@ module Compensated
         end
 
         context "when the input event is JSON parsed from a Stripe invoice.payment_succeeded event from Stripe API v2014-11-05" do
-          let(:request) { fake_request("invoice.payment_succeeded.api-v2014-11-05.json") }
+          let(:fixture) { "invoice.payment_succeeded.api-v2014-11-05.json" }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
           it { is_expected.to include raw_event_type: :"invoice.payment_succeeded" }
           it { is_expected.to include raw_event_id: request.data[:id] }
@@ -139,7 +137,7 @@ module Compensated
           }
         end
         context "when the input event is JSON parsed from a Stripe invoice.payment_succeeded event from Stripe API v2019-12-03" do
-          let(:request) { fake_request("invoice.payment_succeeded.api-v2019-12-03.json") }
+          let(:fixture) { "invoice.payment_succeeded.api-v2019-12-03.json" }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
           it { is_expected.to include raw_event_type: :"invoice.payment_succeeded" }
           it { is_expected.to include raw_event_id: request.data[:id] }
@@ -206,7 +204,7 @@ module Compensated
         end
 
         context "when the input event is JSON parsed from a Stripe invoice.payment_failed event from Stripe API v2019-12-03" do
-          let(:request) { fake_request("invoice.payment_failed.api-v2019-12-03.json") }
+          let(:fixture) { "invoice.payment_failed.api-v2019-12-03.json" }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
           it { is_expected.to include raw_event_type: :"invoice.payment_failed" }
           it { is_expected.to include raw_event_id: request.data[:id] }
@@ -229,7 +227,7 @@ module Compensated
 
 
         context "when the input event is JSON parsed from a Stripe customer.subscription.deleted event from Stripe API v2019-12-03" do
-          let(:request) { fake_request("customer.subscription.deleted.api-v2019-12-03.json", interpolate: interpolate) }
+          let(:fixture) { "customer.subscription.deleted.api-v2019-12-03.json" }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
           it { is_expected.to include raw_event_type: :"customer.subscription.deleted" }
           it { is_expected.to include raw_event_id: request.data[:id] }
@@ -249,12 +247,12 @@ module Compensated
               describe ":subscription" do
                 subject(:subscription) { product[:subscription] }
                 context 'when data.object.ended_at is nil and data.object.canceled_at is present' do
-                  let(:interpolate) { { data_object_ended_at: nil, data_object_canceled_at: 12345 }}
+                  let(:interpolate) { { data: { object: { ended_at: nil, canceled_at: 12345 } } } }
                   it { is_expected. to include(status: :canceled) }
                 end
 
                 context 'when data.object.ended_at is present and data.object.canceled_at is present' do
-                  let(:interpolate) { { data_object_ended_at: 12345, data_object_canceled_at: 12345 }}
+                  let(:interpolate) { { data: { object: { ended_at: 12345, canceled_at: 12345 } } } }
                   it { is_expected. to include(status: :ended) }
                 end
               end
