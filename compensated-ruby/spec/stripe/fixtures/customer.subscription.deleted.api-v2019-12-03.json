@@ -12,7 +12,13 @@
       "billing_thresholds": null,
       "cancel_at": null,
       "cancel_at_period_end": false,
+      <% if interpolate.key?(:data_object_canceled_at) && interpolate[:data_object_canceled_at].nil? %>
+      "canceled_at": null,
+      <% elsif interpolate.key?(:data_object_canceled_at) %>
+      "canceled_at": <%= interpolate[:data_object_canceled_at] %>,
+      <% else %>
       "canceled_at": 1576716105,
+      <% end %>
       "collection_method": "charge_automatically",
       "created": 1576714588,
       "current_period_end": 1579392988,
@@ -23,7 +29,13 @@
       "default_source": null,
       "default_tax_rates": [],
       "discount": null,
+      <% if interpolate.key?(:data_object_ended_at) && interpolate[:data_object_ended_at].nil? %>
+      "ended_at": null,
+      <% elsif interpolate.key?(:data_object_ended_at) %>
+      "ended_at": <%= interpolate[:data_object_ended_at] %>,
+      <% else %>
       "ended_at": 1576716105,
+      <% end %>
       "items": {
         "object": "list",
         "data": [

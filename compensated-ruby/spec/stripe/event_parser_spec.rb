@@ -2,8 +2,10 @@ require "compensated/stripe"
 module Compensated
   module Stripe
     RSpec.describe EventParser do
-      def fake_request(fixture)
-        body = fixture.nil? ? nil : File.open(File.join(__dir__, "fixtures", fixture))
+      include Compensated::Fixtures::TemplateHelpers
+      let(:interpolate) {  {} }
+      def fake_request(fixture, interpolate: {})
+        body = template(__dir__, fixture, interpolate: interpolate)
         PaymentProcessorEventRequest.new(double(form_data?: false, body: body))
       end
 
@@ -163,29 +165,44 @@ module Compensated
               email: "customer@example.com"
             }
           }
-          it {
-            is_expected.to include products: [
-              {
-                sku: request.data[:data][:object][:lines][:data][0][:plan][:product],
-                purchased: Time.at(request.data[:data][:object][:status_transitions][:paid_at]),
-                expiration: Time.at(request.data[:data][:object][:lines][:data][0][:period][:end]),
-                description: request.data[:data][:object][:lines][:data][0][:description],
-                quantity: request.data[:data][:object][:lines][:data][0][:quantity],
-                subscription: {
-                  id: request.data[:data][:object][:lines][:data][0][:subscription]
-                },
-                plan: {
-                  sku: request.data[:data][:object][:lines][:data][0][:plan][:id],
-                  name: request.data[:data][:object][:lines][:data][0][:plan][:nickname],
-                  interval: {
-                    period: request.data[:data][:object][:lines][:data][0][:plan][:interval],
-                    count: request.data[:data][:object][:lines][:data][0][:plan][:interval_count]
-                  }
-                }
-              }
-          ]
-        }
+          describe ':products' do
+            subject(:products) { event[:products] }
+            describe "[0]" do
+              subject(:product) {  products[0] }
+              it { is_expected.to include(sku: request.data[:data][:object][:lines][:data][0][:plan][:product]) }
+              it { is_expected.to include(purchased: Time.at(request.data[:data][:object][:created])) }
+              it { is_expected.to include(expiration: Time.at(request.data[:data][:object][:lines][:data][0][:period][:end])) }
+              # DEPRECATED, see `subscription[:period][:end]`
+              it { is_expected.to include(expiration: Time.at(request.data[:data][:object][:lines][:data][0][:period][:end])) }
+              it { is_expected.to include(description: request.data[:data][:object][:lines][:data][0][:description]) }
+              it { is_expected.to include(quantity: request.data[:data][:object][:lines][:data][0][:quantity]) }
 
+              describe ":subscription" do
+                subject(:subscription) { product[:subscription] }
+                it { is_expected.to include(id: request.data[:data][:object][:lines][:data][0][:subscription])}
+                it {
+                  is_expected.to include(period: {
+                    start: Time.at(request.data[:data][:object][:lines][:data][0][:period][:start]),
+                    end: Time.at(request.data[:data][:object][:lines][:data][0][:period][:end]),
+                  })
+                }
+
+                it { is_expected.to include(status: :active) }
+              end
+
+              describe ":plan" do
+                subject(:plan) { product[:plan] }
+                it { is_expected.to include(sku: request.data[:data][:object][:lines][:data][0][:plan][:id]) }
+                it { is_expected.to include name: request.data[:data][:object][:lines][:data][0][:plan][:nickname] }
+                it { is_expected.to include(
+                      interval: {
+                      period: request.data[:data][:object][:lines][:data][0][:plan][:interval],
+                      count: request.data[:data][:object][:lines][:data][0][:plan][:interval_count]
+                    })
+                }
+              end
+            end
+          end
         end
 
         context "when the input event is JSON parsed from a Stripe invoice.payment_failed event from Stripe API v2019-12-03" do
@@ -209,8 +226,10 @@ module Compensated
           }
         end
 
+
+
         context "when the input event is JSON parsed from a Stripe customer.subscription.deleted event from Stripe API v2019-12-03" do
-          let(:request) { fake_request("customer.subscription.deleted.api-v2019-12-03.json") }
+          let(:request) { fake_request("customer.subscription.deleted.api-v2019-12-03.json", interpolate: interpolate) }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
           it { is_expected.to include raw_event_type: :"customer.subscription.deleted" }
           it { is_expected.to include raw_event_id: request.data[:id] }
@@ -220,6 +239,27 @@ module Compensated
               id: "cus_fake_customer"
             }
           }
+
+
+          describe ":products" do
+            subject(:products) { event[:products] }
+            it { is_expected.not_to be_nil }
+            describe "[0]" do
+              subject(:product) { products[0] }
+              describe ":subscription" do
+                subject(:subscription) { product[:subscription] }
+                context 'when data.object.ended_at is nil and data.object.canceled_at is present' do
+                  let(:interpolate) { { data_object_ended_at: nil, data_object_canceled_at: 12345 }}
+                  it { is_expected. to include(status: :canceled) }
+                end
+
+                context 'when data.object.ended_at is present and data.object.canceled_at is present' do
+                  let(:interpolate) { { data_object_ended_at: 12345, data_object_canceled_at: 12345 }}
+                  it { is_expected. to include(status: :ended) }
+                end
+              end
+            end
+          end
         end
       end
     end

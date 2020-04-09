@@ -46,13 +46,16 @@ module Compensated
       end
 
       private def products(data)
-        if invoice?(data)
-          data[:data][:object][:lines][:data].map do |line|
-            value = product(line, data)
-            next if value.nil? || value.empty?
-            value
-          end
+        key = (invoice?(data) ? :lines : :items)
+        return [] unless data[:data][:object][key]
+        items  = data[:data][:object][key][:data]
+
+        items.map do |line|
+          value = product(line, data)
+          next if value.nil? || value.empty?
+          value
         end
+
       end
 
       private def product(line, data)
@@ -62,14 +65,37 @@ module Compensated
           purchased: purchased(data),
           description: line[:description],
           quantity: line[:quantity],
-          expiration: Time.at(line[:period][:end]),
-          subscription: subscription(line),
+          # TODO: Deprecate!
+          expiration: period_end(line),
+          subscription: subscription(line, data),
           plan: plan(line)
         }.compact
       end
 
-      private def subscription(line)
-        { id: line[:subscription] }.compact
+      private def period_start(line)
+        return nil unless line[:period]
+        Time.at(line[:period][:start])
+      end
+      private def period_end(line)
+        return nil unless line[:period]
+        Time.at(line[:period][:end])
+      end
+
+      private def subscription(line, data)
+        {
+          id: line[:subscription],
+          period: {
+            start: period_start(line),
+            end:  period_end(line),
+          }.compact,
+          status: subscription_status(data)
+         }.compact
+      end
+
+      private def subscription_status(data)
+        return :active if data[:data][:object][:status] == "paid"
+        return :ended unless data[:data][:object][:ended_at].nil?
+        data[:data][:object][:status].to_sym
       end
 
       private def plan(line)
@@ -91,7 +117,8 @@ module Compensated
       end
 
       private def purchased(data)
-        string = data[:data][:object][:status_transitions][:paid_at]
+        string = data[:data][:object][:created] if data[:data][:object][:created]
+        string ||= data[:data][:object][:status_transitions][0][:paid_at]
         return nil if string.nil?
         Time.at(string)
       end
