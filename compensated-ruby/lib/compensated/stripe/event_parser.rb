@@ -66,35 +66,39 @@ module Compensated
           description: line[:description],
           quantity: line[:quantity],
           # TODO: Deprecate!
-          expiration: period_end(line),
+          expiration: period_end(line, data),
           subscription: subscription(line, data),
           plan: plan(line)
         }.compact
       end
 
-      private def period_start(line)
-        return nil unless line[:period]
-        Time.at(line[:period][:start])
+      private def period_start(line, data)
+        return nil unless line[:period] || data[:data][:object][:current_period_start]
+        timestamp = line[:period] ? line[:period][:start] : data[:data][:object][:current_period_start]
+        Time.at(timestamp)
       end
-      private def period_end(line)
-        return nil unless line[:period]
-        Time.at(line[:period][:end])
+      private def period_end(line, data)
+        return nil unless line[:period] || data[:data][:object][:current_period_end]
+        timestamp = line[:period] ? line[:period][:end] : data[:data][:object][:current_period_end]
+        Time.at(timestamp)
       end
 
       private def subscription(line, data)
         {
           id: line[:subscription],
           period: {
-            start: period_start(line),
-            end:  period_end(line),
+            start: period_start(line, data),
+            end:  period_end(line, data),
           }.compact,
           status: subscription_status(data)
          }.compact
       end
 
       private def subscription_status(data)
-        return :active if data[:data][:object][:status] == "paid"
         return :ended unless data[:data][:object][:ended_at].nil?
+        return :canceled unless data[:data][:object][:canceled_at].nil?
+        return :active if data[:data][:object][:status] == "paid"
+
         data[:data][:object][:status].to_sym
       end
 

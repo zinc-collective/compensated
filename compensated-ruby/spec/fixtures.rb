@@ -51,12 +51,15 @@ module Compensated
       # @param default [Object] Default value if key is missing
       # @return [Object], never returns nil, preferring "null"  for JSON compatibility.
       def value(within:, default: nil)
-        value = within.reduce(data) do |result, key|
+        value = dig(within: within, default: default)
+        value.nil? ? "null" : value
+      end
+
+      protected def dig(within:, default: nil)
+        within.reduce(data) do |result, key|
           return default unless result.key?(key)
           result.fetch(key, {})
         end
-
-        value.nil? ? "null" : value
       end
 
       private def template

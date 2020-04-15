@@ -225,7 +225,30 @@ module Compensated
         end
 
 
+        context "when the input event is JSON parsed from a Stripe customer.subscription.updated event from Stripe API v2019-12-03" do
+          let(:fixture) { "customer.subscription.updated.api-v2019-12-03.json" }
+          describe ":products" do
+            subject(:products) { event[:products] }
+            describe "[0]" do
+              subject(:product) { products[0] }
+              describe ":subscription" do
+                subject(:subscription) { product[:subscription] }
+                it { is_expected.to include(period: { start: Time.at(1586329200), end: Time.at(1588921200) }) }
+                context 'when the subscription does not have a canceled_at value set' do
+                  let(:interpolate) { { data: { object: { canceled_at: nil } } } }
+                  it { is_expected.to include(status: :active) }
+                end
 
+                context 'when the subscription does have a canceled_at value set' do
+                  let(:interpolate) { { data: { object: { canceled_at: 1234 } } } }
+                  it { is_expected.to include(status: :canceled) }
+                end
+
+
+              end
+            end
+          end
+        end
         context "when the input event is JSON parsed from a Stripe customer.subscription.deleted event from Stripe API v2019-12-03" do
           let(:fixture) { "customer.subscription.deleted.api-v2019-12-03.json" }
           it { is_expected.to include raw_body: Compensated.json_adapter.dump(request.data) }
