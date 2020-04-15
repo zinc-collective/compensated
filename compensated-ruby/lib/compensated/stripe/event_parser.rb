@@ -65,7 +65,9 @@ module Compensated
           purchased: purchased(data),
           description: line[:description],
           quantity: line[:quantity],
-          # TODO: Deprecate!
+          # TODO: Deprecate `expiration` as it now lives on subscription!
+          #       BUT people are using `expiration` so let's figure out
+          #       a way to safely remove it.
           expiration: period_end(line, data),
           subscription: subscription(line, data),
           plan: plan(line)
@@ -121,8 +123,11 @@ module Compensated
       end
 
       private def purchased(data)
-        string = data[:data][:object][:created] if data[:data][:object][:created]
-        string ||= data[:data][:object][:status_transitions][0][:paid_at]
+        string = if data[:data][:object][:created]
+            data[:data][:object][:created]
+          else
+            data[:data][:object][:status_transitions][0][:paid_at]
+          end
         return nil if string.nil?
         Time.at(string)
       end
