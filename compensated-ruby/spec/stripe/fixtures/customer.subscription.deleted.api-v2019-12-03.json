@@ -12,7 +12,7 @@
       "billing_thresholds": null,
       "cancel_at": null,
       "cancel_at_period_end": false,
-      "canceled_at": 1576716105,
+      "canceled_at": <%= value(within: [:data, :object, :canceled_at], default: 1576716105) %>,
       "collection_method": "charge_automatically",
       "created": 1576714588,
       "current_period_end": 1579392988,
@@ -23,7 +23,7 @@
       "default_source": null,
       "default_tax_rates": [],
       "discount": null,
-      "ended_at": 1576716105,
+      "ended_at": <%= value(within: [:data, :object, :ended_at], default: 1576716105) %>,
       "items": {
         "object": "list",
         "data": [

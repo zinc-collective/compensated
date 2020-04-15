@@ -46,13 +46,16 @@ module Compensated
       end
 
       private def products(data)
-        if invoice?(data)
-          data[:data][:object][:lines][:data].map do |line|
-            value = product(line, data)
-            next if value.nil? || value.empty?
-            value
-          end
+        key = (invoice?(data) ? :lines : :items)
+        return [] unless data[:data][:object][key]
+        items  = data[:data][:object][key][:data]
+
+        items.map do |line|
+          value = product(line, data)
+          next if value.nil? || value.empty?
+          value
         end
+
       end
 
       private def product(line, data)
@@ -62,14 +65,43 @@ module Compensated
           purchased: purchased(data),
           description: line[:description],
           quantity: line[:quantity],
-          expiration: Time.at(line[:period][:end]),
-          subscription: subscription(line),
+          # TODO: Deprecate `expiration` as it now lives on subscription!
+          #       BUT people are using `expiration` so let's figure out
+          #       a way to safely remove it.
+          expiration: period_end(line, data),
+          subscription: subscription(line, data),
           plan: plan(line)
         }.compact
       end
 
-      private def subscription(line)
-        { id: line[:subscription] }.compact
+      private def period_start(line, data)
+        return nil unless line[:period] || data[:data][:object][:current_period_start]
+        timestamp = line[:period] ? line[:period][:start] : data[:data][:object][:current_period_start]
+        Time.at(timestamp)
+      end
+      private def period_end(line, data)
+        return nil unless line[:period] || data[:data][:object][:current_period_end]
+        timestamp = line[:period] ? line[:period][:end] : data[:data][:object][:current_period_end]
+        Time.at(timestamp)
+      end
+
+      private def subscription(line, data)
+        {
+          id: line[:subscription],
+          period: {
+            start: period_start(line, data),
+            end:  period_end(line, data),
+          }.compact,
+          status: subscription_status(data)
+         }.compact
+      end
+
+      private def subscription_status(data)
+        return :ended unless data[:data][:object][:ended_at].nil?
+        return :canceled unless data[:data][:object][:canceled_at].nil?
+        return :active if data[:data][:object][:status] == "paid"
+
+        data[:data][:object][:status].to_sym
       end
 
       private def plan(line)
@@ -91,7 +123,11 @@ module Compensated
       end
 
       private def purchased(data)
-        string = data[:data][:object][:status_transitions][:paid_at]
+        string = if data[:data][:object][:created]
+            data[:data][:object][:created]
+          else
+            data[:data][:object][:status_transitions][0][:paid_at]
+          end
         return nil if string.nil?
         Time.at(string)
       end
