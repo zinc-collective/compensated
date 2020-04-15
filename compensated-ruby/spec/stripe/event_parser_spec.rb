@@ -93,6 +93,20 @@ module Compensated
         end
       end
 
+      describe "#pretransformed_data(data)" do
+        subject(:data) { event_parser.pretransformed_data(input) }
+        let(:request) { fake_request("charge.succeeded.api-v2014-11-05.json") }
+        context "when the input is a string of the body" do
+          let(:input) { request.body.read }
+          it { is_expected.to include(:created, :livemode, :id, :type, :object, :request, :pending_webhooks, :api_version, :data) }
+        end
+
+        context "when the input is a hash of data" do
+          let(:input) { request.data }
+          it { is_expected.to include(:created, :livemode, :id, :type, :object, :request, :pending_webhooks, :api_version, :data) }
+        end
+      end
+
       describe "#parse(request)" do
         subject(:event) { event_parser.parse(request) }
         context "when the input event is JSON parsed from a Stripe charge.succeeded event from Stripe API v2014-11-05" do

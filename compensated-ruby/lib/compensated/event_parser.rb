@@ -11,5 +11,9 @@ module Compensated
     def normalize(data)
       raise NotImplementedError("Implement in Child")
     end
+
+    def pretransformed_data(data)
+      raise NotImplementedError("Implement in Child")
+    end
   end
 end

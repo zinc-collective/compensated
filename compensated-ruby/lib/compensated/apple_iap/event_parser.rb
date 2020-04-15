@@ -10,7 +10,7 @@ module Compensated
       end
 
       def normalize(data)
-        data = Compensated.json_adapter.parse(data) unless data.respond_to?(:key)
+        data = pretransformed_data(data)
         {
           raw_body: Compensated.json_adapter.dump(data),
           raw_event_type: data[:notification_type].to_sym,
@@ -20,6 +20,10 @@ module Compensated
           products: products(data),
           timestamp: timestamp(data),
         }.compact
+      end
+
+      def pretransformed_data(data)
+        data.respond_to?(:key) ? data : Compensated.json_adapter.parse(data)
       end
 
       def timestamp(data)

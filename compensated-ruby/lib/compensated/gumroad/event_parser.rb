@@ -10,7 +10,7 @@ module Compensated
       end
 
       def normalize(data_or_body)
-        data = data_or_body.respond_to?(:key) ? data_or_body : data_from_string(data_or_body)
+        data = pretransformed_data(data_or_body)
         body = data_or_body.respond_to?(:key) ? nil : read_and_rewind(data_or_body)
         {
           raw_body: body,
@@ -28,6 +28,10 @@ module Compensated
           },
           timestamp: DateTime.parse(data["sale_timestamp"]),
         }.compact
+      end
+
+      def pretransformed_data(data_or_body)
+        data_or_body.respond_to?(:key) ? data_or_body : data_from_string(data_or_body)
       end
 
       def parse(request)
