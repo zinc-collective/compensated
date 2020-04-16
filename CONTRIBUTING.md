@@ -187,7 +187,29 @@ rights, including copyright, to any future Compensated work by myself to Zinc
 Collective LLC." to [the maintainer mailing list][email-maintainers] or as a
 comment on your [patch][creating-a-pull-request].
 
-### Why Do I Have to Assign Ownership to Zinc Collective
+## Frequently Asked Questions
+
+### What Do the different Labels Mean?
+
+We use a [double-loop learning model][double-loop-learning] for developing
+software. Issues or conversations labeled with "request for comment" or
+"question" are part of the learning loop that help us re-assess and think
+through hard problems together. We encourage everyone who has something they
+believe is valuable to share to participate in these issues, as they help us see
+the broader perspective of the community.
+
+Issues labeled with "enhancement" or "bug" are the inner implementation loop,
+and are intended to be pieces of work that can be done by a contributor
+over the course of a few hours or a few weeks. We want these issues to
+stay tightly focused, and ask contributors who want to do the implementation to use them to ask for direction, support, or otherwise [get help][get-help].
+
+Issues labeled with "code", "design", "infrastructure", or "operations" indicate
+the kind of skills that a contributor would be bringing to the table when
+working on the issue.
+
+Issues labeled "help wanted" indicate that this is work we _wish_ we had the bandwidth or expertise to work on effectively. These are a great place to start looking if you're trying to figure out how to contribute.
+
+### Why Do I Have to Assign Ownership to Zinc Collective?
 
 There are several reasons:
 
@@ -243,3 +265,4 @@ Guide][sidekiq-pro-commercial-collaboration])
 [github-flow]: https://guides.github.com/introduction/flow/
 [basic-branching]:
   https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
+[double-loop-learning]: https://en.wikipedia.org/wiki/Double-loop_learning
