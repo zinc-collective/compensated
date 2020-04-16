@@ -13,7 +13,7 @@ Compensated provides that layer of indirection for you, so you can focus on crea
 
 ## How Compensated Works
 
-Compensated is a Ruby gem that you can include directly in your existing Ruby projects, or host as a thin adapter to normalize events as they stream in. Think of it like [Nylas](https://www.nylas.com/), [Yodlee](https://www.yodlee.com/), [Plaid](https://plaid.com/), or [Griddler](https://github.com/thoughtbot/griddler); but for getting paid.
+Compensated is a Ruby gem that you can include directly in your existing Ruby projects, or host as a thin adapter to transform events as they stream in. Think of it like [Nylas](https://www.nylas.com/), [Yodlee](https://www.yodlee.com/), [Plaid](https://plaid.com/), or [Griddler](https://github.com/thoughtbot/griddler); but for getting paid.
 
 Compensated early alpha, with a few production installations. You can [reach out][contact-email] with your use case and we'll happily weigh in on if it could work for you.
 

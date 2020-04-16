@@ -27,7 +27,7 @@ Right now, we do not provide a Rack plugin or Rails engine for use with Compensa
 ```rb
 class PaymentProcessorEventsController < ApplicationController
   def create
-    # We provide a basic request handler that normalizes the payment processor event data
+    # We provide a basic request handler that transform the payment processor event data
     # for your convenience.
     handler = Compensated::PaymentProcessorEventRequestHandler.new(request)
 

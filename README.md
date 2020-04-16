@@ -1,7 +1,7 @@
 # Compensated
 [![Build Status](https://travis-ci.org/zinc-collective/compensated.svg?branch=0.X)](https://travis-ci.org/zinc-collective/compensated)
 
-Compensated makes it easier to get paid by your users. It listens for events from your payment processors and normalizes them so you only have to write your payment handling code once. Compensated has very few opinions about how your application is structured while providing affordances and guidance around consistent, reliable payment processing.
+Compensated makes it easier to get paid by your users. It listens for events from your payment processors and transforms them so you only have to write your payment handling code once. Compensated has very few opinions about how your application is structured while providing affordances and guidance around consistent, reliable payment processing.
 
 ## Goals
 
@@ -10,7 +10,7 @@ Compensated makes it easier to get paid by your users. It listens for events fro
 
 ## Roadmap
 
-1. [X] - Q3 2019 - compensated-ruby, compensated-ruby-stripe, and compensated-ruby-gumroad will provide affordances for Ruby/Rails apps to normalize data when subscriptions are created, payments succeed, or payments fail.
+1. [X] - Q3 2019 - compensated-ruby, compensated-ruby-stripe, and compensated-ruby-gumroad will provide affordances for Ruby/Rails apps to transform data when subscriptions are created, payments succeed, or payments fail.
 2. [X] - Q4 2019 - Bug fixes and enhancements to support existing clients
 3. [ ] - Q1~Q2 2020 - Polish to the point of being a salable project and release 1.0
 

@@ -9,7 +9,7 @@ between your application code and payment processors or stores such as
 Purchases][apple-iap] ([source][compensated-ruby-apple-iap-source]), or
 [Gumroad][gumroad] ([source][compensated-ruby-gumroad-source]).
 
-The adapters primary purpose is to normalize the data sent to your application
+The adapters primary purpose is to transfrom the data sent to your application
 from each payment processors particular data structures into a single data
 structure that looks something like this:
 
