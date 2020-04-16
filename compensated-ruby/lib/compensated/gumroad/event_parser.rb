@@ -31,13 +31,20 @@ module Compensated
       end
 
       def extract(data_or_body)
-        if data_or_body.respond_to?(:key)
+        data = if data_or_body.respond_to?(:key)
           data_or_body
         else
           data_from_string(data_or_body)
-        end.inject({}) do |hsh,(key,value)|
-          hsh[key.to_sym] = value
-          hsh
+        end
+
+        # Ruby 2.4 doesn't support Hash#transform_keys
+        data = if data.respond_to?(:transform_keys)
+          data.transform_keys(&:to_sym)
+        else
+          data.inject({}) do |hsh,(key,value)|
+            hsh[key.to_sym] = value
+            hsh
+          end
         end
       end
 
