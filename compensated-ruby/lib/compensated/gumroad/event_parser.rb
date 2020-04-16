@@ -1,7 +1,7 @@
 require "webrick"
 module Compensated
   module Gumroad
-    class EventParser
+    class EventParser < Compensated::EventParser
       def parses?(request)
         # Gumroad pings are always form data
         return false unless request.form_data?
@@ -30,12 +30,6 @@ module Compensated
         }.compact
       end
 
-      # <b>DEPRECATED:</b> Please use <tt>transform</tt> instead.
-      def normalize(data_or_body)
-        warn '[DEPRECATION] `normalize` is deprecated.  Please use `transform` instead.'
-        transform(data_or_body)
-      end
-
       def extract(data_or_body)
         if data_or_body.respond_to?(:key)
           data_or_body
@@ -48,7 +42,7 @@ module Compensated
       end
 
       def parse(request)
-        normalize(request.body)
+        transform(request.body)
       end
 
       private def read_and_rewind(body)

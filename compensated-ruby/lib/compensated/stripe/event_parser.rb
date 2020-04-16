@@ -9,7 +9,7 @@ module Compensated
         SUPPORTED_EVENTS.include?(request.data[:type])
       end
 
-      def normalize(data)
+      def transform(data)
         data = extract(data)
         {
           raw_body: Compensated.json_adapter.dump(data),

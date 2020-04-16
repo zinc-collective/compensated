@@ -27,8 +27,8 @@ module Compensated
 
       subject(:event_parser) { EventParser.new }
 
-      describe "#normalize(body_or_data)" do
-        subject(:data) { event_parser.normalize(body_or_data) }
+      describe "#transform(body_or_data)" do
+        subject(:data) { event_parser.transform(body_or_data) }
         context "when it's a string of body data" do
           let(:body_or_data) { fixture_content("sample-ping.as.multipart") }
           it { is_expected.to include raw_body: body_or_data }

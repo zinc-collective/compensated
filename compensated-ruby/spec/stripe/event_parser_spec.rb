@@ -50,8 +50,8 @@ module Compensated
         end
       end
 
-      describe "#normalize(data)" do
-        subject(:data) { event_parser.normalize(input) }
+      describe "#transform(data)" do
+        subject(:data) { event_parser.transform(input) }
         let(:fixture) { "charge.succeeded.api-v2014-11-05.json" }
         context "when the input is a string of the body" do
           let(:input) { request.body.read }
