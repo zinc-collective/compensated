@@ -95,7 +95,7 @@ module Compensated
 
       describe "#extract(data)" do
         subject(:data) { event_parser.extract(input) }
-        let(:request) { fake_request("charge.succeeded.api-v2014-11-05.json") }
+        let(:fixture) { "charge.succeeded.api-v2014-11-05.json" }
         context "when the input is a string of the body" do
           let(:input) { request.body.read }
           it { is_expected.to include(:created, :livemode, :id, :type, :object, :request, :pending_webhooks, :api_version, :data) }
