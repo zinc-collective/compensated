@@ -1,7 +1,7 @@
 require "webrick"
 module Compensated
   module Gumroad
-    class EventParser
+    class EventParser < Compensated::EventParser
       def parses?(request)
         # Gumroad pings are always form data
         return false unless request.form_data?
@@ -9,6 +9,10 @@ module Compensated
         keys.include?(:seller_id) && keys.include?(:product_id) && keys.include?(:product_permalink) && request.data["product_permalink"].include?("gum.co")
       end
 
+      # Transform Gumroad input data into Compensated event hash
+      #
+      # @param input [String, Rack::Request]
+      # @return [Hash]
       def transform(data_or_body)
         data = extract(data_or_body)
         body = data_or_body.respond_to?(:key) ? nil : read_and_rewind(data_or_body)
@@ -30,25 +34,26 @@ module Compensated
         }.compact
       end
 
-      # <b>DEPRECATED:</b> Please use <tt>transform</tt> instead.
-      def normalize(data_or_body)
-        warn '[DEPRECATION] `normalize` is deprecated.  Please use `transform` instead.'
-        transform(data_or_body)
-      end
-
       def extract(data_or_body)
-        if data_or_body.respond_to?(:key)
+        data = if data_or_body.respond_to?(:key)
           data_or_body
         else
           data_from_string(data_or_body)
-        end.inject({}) do |hsh,(key,value)|
-          hsh[key.to_sym] = value
-          hsh
+        end
+
+        # Ruby 2.4 doesn't support Hash#transform_keys
+        data = if data.respond_to?(:transform_keys)
+          data.transform_keys(&:to_sym)
+        else
+          data.inject({}) do |hsh,(key,value)|
+            hsh[key.to_sym] = value
+            hsh
+          end
         end
       end
 
       def parse(request)
-        normalize(request.body)
+        transform(request.body)
       end
 
       private def read_and_rewind(body)

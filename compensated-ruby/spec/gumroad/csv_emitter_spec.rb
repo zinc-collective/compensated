@@ -7,7 +7,7 @@ module Compensated
         File.open(File.join(__dir__, "fixtures", fixture))
       end
       describe "#parse(io_stream)" do
-        it "normalizes each row into a payment processor event" do
+        it "transforms each row into a payment processor event" do
           emitter = CSVEmitter.new
           events = emitter.parse(load_csv("example-export.csv"))
           expect(events[0]).to include({

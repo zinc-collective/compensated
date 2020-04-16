@@ -9,7 +9,11 @@ module Compensated
         SUPPORTED_EVENTS.include?(request.data[:type])
       end
 
-      def normalize(data)
+      # Transform Stripe input data into Compensated event hash
+      #
+      # @param input [String, IO, Rack::Request]
+      # @return [Hash]
+      def transform(data)
         data = extract(data)
         {
           raw_body: Compensated.json_adapter.dump(data),

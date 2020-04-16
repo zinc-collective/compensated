@@ -13,8 +13,14 @@ module Compensated
     end
 
     # @return Hash
-    def normalized_event_data
+    def transformed_event_data
       event_parser.parse(event_request)
+    end
+
+    # <b>DEPRECATED:</b> Please use <tt>transformed_event_data</tt> instead.
+    def normalized_event_data
+      warn '[DEPRECATION] `normalized_event_data` is deprecated.  Please use `transformed_event_data` instead.'
+      transformed_event_data
     end
 
     protected def event_parser
