@@ -9,6 +9,10 @@ module Compensated
           SUPPORTED_TYPES.include?(request.data[:notification_type])
       end
 
+      # Transform AppleIap input data into Compensated event hash
+      #
+      # @param input [String, IO, Rack::Request]
+      # @return [Hash]
       def transform(data)
         data = extract(data)
         {

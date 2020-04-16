@@ -9,6 +9,10 @@ module Compensated
         keys.include?(:seller_id) && keys.include?(:product_id) && keys.include?(:product_permalink) && request.data["product_permalink"].include?("gum.co")
       end
 
+      # Transform Gumroad input data into Compensated event hash
+      #
+      # @param input [String, Rack::Request]
+      # @return [Hash]
       def transform(data_or_body)
         data = extract(data_or_body)
         body = data_or_body.respond_to?(:key) ? nil : read_and_rewind(data_or_body)
