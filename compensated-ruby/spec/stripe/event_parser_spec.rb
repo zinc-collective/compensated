@@ -93,8 +93,8 @@ module Compensated
         end
       end
 
-      describe "#pretransformed_data(data)" do
-        subject(:data) { event_parser.pretransformed_data(input) }
+      describe "#extract(data)" do
+        subject(:data) { event_parser.extract(input) }
         let(:request) { fake_request("charge.succeeded.api-v2014-11-05.json") }
         context "when the input is a string of the body" do
           let(:input) { request.body.read }

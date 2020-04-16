@@ -108,8 +108,8 @@ module Compensated
         end
       end
 
-      describe "#pretransformed_data(data)" do
-        subject { event_parser.pretransformed_data(input) }
+      describe "#extract(data)" do
+        subject { event_parser.extract(input) }
         let(:request) { fake_request("interactive-renewal.json") }
 
         context "when the input is a string of the body" do

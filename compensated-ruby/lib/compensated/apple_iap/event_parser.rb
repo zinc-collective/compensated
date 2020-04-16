@@ -10,7 +10,7 @@ module Compensated
       end
 
       def normalize(data)
-        data = pretransformed_data(data)
+        data = extract(data)
         {
           raw_body: Compensated.json_adapter.dump(data),
           raw_event_type: data[:notification_type].to_sym,
@@ -22,7 +22,7 @@ module Compensated
         }.compact
       end
 
-      def pretransformed_data(data)
+      def extract(data)
         data.respond_to?(:key) ? data : Compensated.json_adapter.parse(data)
       end
 

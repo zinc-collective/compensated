@@ -12,7 +12,7 @@ module Compensated
       raise NotImplementedError("Implement in Child")
     end
 
-    def pretransformed_data(data)
+    def extract(data)
       raise NotImplementedError("Implement in Child")
     end
   end

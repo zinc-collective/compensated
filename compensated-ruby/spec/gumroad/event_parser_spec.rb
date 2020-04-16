@@ -64,9 +64,9 @@ module Compensated
         end
       end
 
-      describe "#pretransformed_data(body_or_data)" do
-        subject(:data) { event_parser.pretransformed_data(body_or_data) }
-        let(:gumroad_event_keys) { ["seller_id", "product_id", "product_name", "permalink", "product_permalink", "email", "price", "currency", "quantity", "order_number", "sale_id", "sale_timestamp", "purchaser_id", "subscription_id", "is_recurring_charge", "recurrence", "is_gift_receiver_purchase", "refunded", "resource_name", "full_name", "disputed", "dispute_won", "retry_count"] }
+      describe "#extract(body_or_data)" do
+        subject(:data) { event_parser.extract(body_or_data) }
+        let(:gumroad_event_keys) { [:seller_id, :product_id, :product_name, :permalink, :product_permalink, :email, :price, :currency, :quantity, :order_number, :sale_id, :sale_timestamp, :purchaser_id, :subscription_id, :is_recurring_charge, :recurrence, :is_gift_receiver_purchase, :refunded, :resource_name, :full_name, :disputed, :dispute_won, :retry_count] }
         context "when it's a string of body data" do
           let(:body_or_data) { fixture_content("sample-ping.as.multipart") }
           it { is_expected.to include(*gumroad_event_keys) }
