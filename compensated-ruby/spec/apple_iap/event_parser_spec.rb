@@ -108,6 +108,21 @@ module Compensated
         end
       end
 
+      describe "#extract(data)" do
+        subject { event_parser.extract(input) }
+        let(:request) { fake_request("interactive-renewal.json") }
+
+        context "when the input is a string of the body" do
+          let(:input) { request.body.read }
+          it { is_expected.to include(:latest_receipt, :latest_receipt_info, :environment, :auto_renew_status, :password, :auto_renew_product_id, :notification_type) }
+        end
+
+        context "when the input is a string of the body" do
+          let(:input) { request.data }
+          it { is_expected.to include(:latest_receipt, :latest_receipt_info, :environment, :auto_renew_status, :password, :auto_renew_product_id, :notification_type) }
+        end
+      end
+
       describe "#parse(request)" do
         subject(:event) { event_parser.parse(request) }
         context "when the input event is JSON parsed from a apple_iap CANCEL event from apple_iap" do
