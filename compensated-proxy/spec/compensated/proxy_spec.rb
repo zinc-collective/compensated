@@ -19,9 +19,8 @@ RSpec.describe Compensated::Proxy do
 
   it "forwards the standardized body" do
     http_client = class_double(Net::HTTP, post: :true)
-    forwarder = Compensated::Proxy::Forwarder.new(to: 'http://localhost:8080/compensated-event-listener', http_client: http_client)
 
-    proxy_service = Compensated::Proxy.new(forwarder: forwarder )
+    proxy_service = Compensated::Proxy.new(to: 'http://localhost:8080/compensated-event-listener', http_client: http_client)
 
     proxy_service.handle(request)
 
@@ -29,7 +28,6 @@ RSpec.describe Compensated::Proxy do
       URI('http://localhost:8080/compensated-event-listener'),
       '{"raw_event_type":"customer.subscription.updated","raw_event_id":"evt_abc1234","payment_processor":"stripe","amount":{},"customer":{"id":"cus_abcd1234"},"invoice":null,"products":[{"sku":"prod_abcd1234","purchased":"2020-02-07 23:00:00 -0800","quantity":1,"expiration":"2020-05-08 00:00:00 -0700","subscription":{"id":"sub_abcd1234","period":{"start":"2020-04-08 00:00:00 -0700","end":"2020-05-08 00:00:00 -0700"},"status":"active"},"plan":{"sku":"plan_abcd1234","name":"Monthly","interval":{"period":"month","count":1}}}],"timestamp":"2020-04-08 00:00:20 -0700"}',
        "Content-Type" => "application/json"
-
     )
   end
 end
