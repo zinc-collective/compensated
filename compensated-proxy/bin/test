@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Dispatches each module's full test suite in each supported languages
+
 
 # Configure the script to be verbose and fail early
 # See: https://ss64.com/bash/set.html
@@ -8,5 +8,5 @@ set -euo pipefail
 IFS=$'\n\t'
 set -vx
 
-(cd compensated-ruby && bin/test-matrix)
-(cd compensated-proxy && bin/test-matrix)
+# Run RSpec
+bin/rspec
