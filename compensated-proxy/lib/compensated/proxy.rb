@@ -7,9 +7,9 @@ require 'compensated'
 
 
 module Compensated
-  module Proxy
+  class Proxy
     class Error < StandardError; end
-    class Service
+
       attr_accessor :forwarder
       def initialize(forwarder: )
         self.forwarder = forwarder
@@ -21,7 +21,6 @@ module Compensated
         data.delete(:raw_body)
         forwarder.forward(JSON.dump(data))
       end
-    end
 
     class Forwarder
       attr_accessor :http_client, :to

@@ -1,5 +1,5 @@
 module Compensated
-  module Proxy
+  class Proxy
     VERSION = "0.1.0"
   end
 end

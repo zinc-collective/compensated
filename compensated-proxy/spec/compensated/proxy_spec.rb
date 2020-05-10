@@ -21,7 +21,7 @@ RSpec.describe Compensated::Proxy do
     http_client = class_double(Net::HTTP, post: :true)
     forwarder = Compensated::Proxy::Forwarder.new(to: 'http://localhost:8080/compensated-event-listener', http_client: http_client)
 
-    proxy_service = Compensated::Proxy::Service.new(forwarder: forwarder )
+    proxy_service = Compensated::Proxy.new(forwarder: forwarder )
 
     proxy_service.handle(request)
 
