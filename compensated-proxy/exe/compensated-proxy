@@ -1,0 +1,32 @@
+#!/usr/bin/env ruby
+
+require 'optparse'
+
+options = {}
+OptionParser.new do |opts|
+  opts.banner = "Usage: compensated-proxy --forward-to=https://example.com/payment-event-handler --payment-processors=stripe"
+
+  opts.on("-fhttps://your.example.com/event-handler", "--forward-to=https://your.example.com/event-handler", "URL to forward reformatted payment events") do |forward_to|
+    options[:forward_to] = forward_to
+  end
+  opts.on("-pstripe,gumroad,apple_iap", "--payment-processors=stripe,gumroad,apple_iap", "The payment processors you want to format and forward") do |processors|
+    options[:payment_processors] = processors.split(',')
+  end
+
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    exit
+  end
+end.parse!
+
+
+port = ENV['PORT'] || 9292
+require 'rack'
+require_relative '../lib/compensated/proxy'
+options[:payment_processors].each do |payment_processor|
+  require "compensated/#{payment_processor}"
+end
+
+Rack::Server.start(
+  app: Rack::ShowExceptions.new(Rack::Lint.new(Compensated::Proxy.new(forward_to: options[:forward_to]))), Port: port
+)

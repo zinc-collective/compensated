@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'compensated/proxy/version'
+require_relative 'proxy/version'
 
 require 'net/http'
 
@@ -11,13 +11,20 @@ module Compensated
     # Parent class for Proxy errors.
     class Error < StandardError; end
 
-    attr_accessor :to, :http_client
+    attr_accessor :forward_to, :http_client
 
-    # @param [String, URI] Downstream event handler that accepts formatted payment events
+    # @param [String, URI] forward_to Downstream event handler that accepts formatted payment events
     # @param [#post] http_client Object  HTTP transport. Defaults to the `Net::HTTP` constant.
-    def initialize(to:, http_client: Net::HTTP)
+    def initialize(forward_to:, http_client: Net::HTTP)
       self.http_client = http_client
-      self.to = URI(to)
+      self.forward_to = URI(forward_to)
+    end
+
+    def call(env)
+      request = Rack::Request.new(env)
+      handle(request)
+      res = Rack::Response.new
+      res.finish
     end
 
     # Accepts an HTTP request and forwards it to the downstream event handler
@@ -31,7 +38,7 @@ module Compensated
     end
 
     private def forward(data)
-      http_client.post(to, data, 'Content-Type' => 'application/json')
+      http_client.post(forward_to, data, 'Content-Type' => 'application/json')
     end
   end
 end
