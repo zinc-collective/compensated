@@ -20,7 +20,7 @@ RSpec.describe Compensated::Proxy do
   it 'forwards the standardized body without the raw body' do
     http_client = class_double(Net::HTTP, post: :true)
 
-    proxy_service = Compensated::Proxy.new(to: 'http://localhost:8080/compensated-event-listener', http_client: http_client)
+    proxy_service = Compensated::Proxy.new(forward_to: 'http://localhost:8080/compensated-event-listener', http_client: http_client)
 
     proxy_service.handle(request)
     handler = Compensated::PaymentProcessorEventRequestHandler.new(request)
