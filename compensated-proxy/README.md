@@ -27,7 +27,7 @@ verifies the signature of inbound payment processor events, reformats the
 events into the standardized Compensated event format, signs them, and
 forwards them on to your event listener endpoint.
 
-`$ compensated-proxy --forward-to https://example.com/your-event-listener`
+`$ compensated-proxy --forward-to=https://example.com/your-event-listener --payment-processors=stripe,apple_iap,gumroad`
 
 ## Development
 
