@@ -4,3 +4,4 @@ IFS=$'\n\t'
 set -vx
 
 (cd compensated-ruby && bin/setup-matrix)
+(cd compensated-proxy && bin/setup-matrix)
