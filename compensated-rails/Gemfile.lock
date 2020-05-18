@@ -2,6 +2,7 @@ PATH
   remote: .
   specs:
     compensated-rails (0.1.0)
+      compensated (= 0.1.0.pre13)
       rails (~> 6.0.2, >= 6.0.2.2)
 
 GEM
@@ -63,6 +64,7 @@ GEM
       tzinfo (~> 1.1)
       zeitwerk (~> 2.2, >= 2.2.2)
     builder (3.2.4)
+    compensated (0.1.0.pre13)
     concurrent-ruby (1.1.6)
     crass (1.0.6)
     erubi (1.9.0)
