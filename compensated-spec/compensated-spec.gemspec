@@ -27,7 +27,8 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency "compensated"
+  spec.add_dependency "jsonpath", "~> 1.0"
   spec.add_development_dependency "cucumber", "~> 3.1"
   spec.add_development_dependency "pry"
-  spec.add_development_dependency "jsonpath"
+
 end

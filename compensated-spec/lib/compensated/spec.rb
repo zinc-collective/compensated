@@ -6,42 +6,47 @@ module Compensated
   module Spec
     class Error < StandardError; end
     module Helpers
-      def compensated_event_body(fixture, interpolate: {})
-        compensated_fixture_io(fixture, interpolate: interpolate).read
+      # @param fixture [String] Name of fixture to get the event body for
+      # @param overrides [Array<#location,#value>,Array<Hash>] data to replace in fixture. locations should follow JsonPath format
+      # @return String
+      def compensated_event_body(fixture, overrides: [])
+        compensated_fixture_io(fixture, overrides: overrides).read
       end
 
-      # @param fixture [String, Path] Absolute path to template file
-      # @return PaymentProcessorEventRequest
-      def compensated_fake_request(fixture, interpolate: {})
-        io = compensated_fixture_io(fixture, interpolate: interpolate)
+      # @param fixture [String] Name of fixture to make a fake request for
+      # @param overrides [Array<#location,#value>,Array<Hash>] data to replace in fixture. locations should follow JsonPath format
+      # @return Compensated::PaymentProcessorEventRequest
+      def compensated_fake_request(fixture, overrides: [])
+        io = compensated_fixture_io(fixture, overrides: overrides)
         PaymentProcessorEventRequest.new(double(form_data?: false, body: io))
       end
 
-      # @param fixture [String] name of fixture file
+      # @param fixture [String] Name of fixture to get the full path of
       # @return Path Absolute path of fixture within the adapter's fixtures directory
       def compensated_fixture_path(fixture)
         adapter, *fixture = fixture.split('/')
         File.expand_path(File.join(__dir__, 'spec', adapter, "fixtures", fixture))
       end
 
-      # Returns an IO version of the event fixtures body
+      # An IO stream of an event fixtures' body
       #
       # @param fixture [String] name of fixture
-      # @param interpolate: [Hash] Hash with data to interpolate
+      # @param overrides: [Array<#location,#value>,Array<Hash>] data to replace in fixture. locations should follow JsonPath format
+      # @see https://goessner.net/articles/JsonPath/
       # @return [StringIO]
-      def compensated_fixture_io(fixture, interpolate: {})
+      def compensated_fixture_io(fixture, overrides: {})
         return nil if fixture.nil?
-        interpolator = Interpolator.new(data: interpolate, template_path: compensated_fixture_path(fixture))
+        interpolator = Interpolator.new(overrides: overrides, template_path: compensated_fixture_path(fixture))
 
         StringIO.new(interpolator.result)
       end
     end
 
-    # Interpolates data against an ERB template
+    # Interpolates data into a template using JsonPath
     class Interpolator
-      attr_accessor :data, :template_path
-      def initialize(data:, template_path:)
-        @data = data
+      attr_accessor :overrides, :template_path
+      def initialize(overrides:, template_path:)
+        @overrides = overrides
         @template_path = template_path
       end
 
@@ -51,7 +56,7 @@ module Compensated
       end
 
       private def interpolated_output
-        data.reduce(template) do |result, override|
+        overrides.reduce(template) do |result, override|
           JSON.dump(JsonPath.for(result).gsub(override["location"]) { override["value"] }.to_hash)
         end
       end

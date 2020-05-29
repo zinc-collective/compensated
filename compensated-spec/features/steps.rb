@@ -7,7 +7,7 @@ When("we generate the {string} fixture") do |fixture_name|
 end
 
 When("we generate the {string} fixture with the following data:") do |fixture_name, table|
-  @fixture_output = compensated_event_body(fixture_name, interpolate: table.hashes)
+  @fixture_output = compensated_event_body(fixture_name, overrides: table.hashes)
 end
 
 Then("the fixture output is the content of the {string} fixture") do |fixture_name|
