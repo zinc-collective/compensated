@@ -1,0 +1,140 @@
+{
+  "id": "evt_abc1234",
+  "object": "event",
+  "api_version": "2019-12-03",
+  "created": 1586329220,
+  "data": {
+    "object": {
+      "id": "sub_abcd1234",
+      "object": "subscription",
+      "application_fee_percent": null,
+      "billing_cycle_anchor": 1583650800,
+      "billing_thresholds": null,
+      "cancel_at": null,
+      "cancel_at_period_end": false,
+      "canceled_at": <%= value(within: [:data, :object, :canceled_at], default: nil) %>,
+      "collection_method": "charge_automatically",
+      "created": 1581145200,
+      "current_period_end": 1588921200,
+      "current_period_start": 1586329200,
+      "customer": "cus_abcd1234",
+      "days_until_due": null,
+      "default_payment_method": null,
+      "default_source": null,
+      "default_tax_rates": [
+      ],
+      "discount": null,
+      "ended_at": null,
+      "items": {
+        "object": "list",
+        "data": [
+          {
+            "id": "si_abcd1234",
+            "object": "subscription_item",
+            "billing_thresholds": null,
+            "created": 1581145216,
+            "metadata": {
+            },
+            "plan": {
+              "id": "plan_abcd1234",
+              "object": "plan",
+              "active": true,
+              "aggregate_usage": null,
+              "amount": null,
+              "amount_decimal": null,
+              "billing_scheme": "tiered",
+              "created": 1576710031,
+              "currency": "usd",
+              "interval": "month",
+              "interval_count": 1,
+              "livemode": true,
+              "metadata": {
+              },
+              "nickname": "Monthly",
+              "product": "prod_abcd1234",
+              "tiers": [
+                {
+                  "flat_amount": 5900,
+                  "flat_amount_decimal": "5900",
+                  "unit_amount": null,
+                  "unit_amount_decimal": null,
+                  "up_to": 24
+                }
+              ],
+              "tiers_mode": "volume",
+              "transform_usage": null,
+              "trial_period_days": null,
+              "usage_type": "licensed"
+            },
+            "quantity": 1,
+            "subscription": "sub_abcd1234",
+            "tax_rates": [
+            ]
+          }
+        ],
+        "has_more": false,
+        "total_count": 1,
+        "url": "/v1/subscription_items?subscription=sub_abcd1234"
+      },
+      "latest_invoice": "in_abcd12345",
+      "livemode": true,
+      "metadata": {
+      },
+      "next_pending_invoice_item_invoice": null,
+      "pause_collection": null,
+      "pending_invoice_item_interval": null,
+      "pending_setup_intent": null,
+      "pending_update": null,
+      "plan": {
+        "id": "plan_abcd123456",
+        "object": "plan",
+        "active": true,
+        "aggregate_usage": null,
+        "amount": null,
+        "amount_decimal": null,
+        "billing_scheme": "tiered",
+        "created": 1576710031,
+        "currency": "usd",
+        "interval": "month",
+        "interval_count": 1,
+        "livemode": true,
+        "metadata": {
+        },
+        "nickname": "Monthly",
+        "product": "prod_abcd123456",
+        "tiers": [
+          {
+            "flat_amount": 5900,
+            "flat_amount_decimal": "5900",
+            "unit_amount": null,
+            "unit_amount_decimal": null,
+            "up_to": 24
+          }
+        ],
+        "tiers_mode": "volume",
+        "transform_usage": null,
+        "trial_period_days": null,
+        "usage_type": "licensed"
+      },
+      "quantity": 1,
+      "schedule": null,
+      "start_date": 1581145200,
+      "status": "active",
+      "tax_percent": null,
+      "trial_end": null,
+      "trial_start": null
+    },
+    "previous_attributes": {
+      "current_period_end": 1586329200,
+      "current_period_start": 1583650800,
+      "latest_invoice": "in_abc12345"
+    }
+  },
+  "livemode": true,
+  "pending_webhooks": 1,
+  "request": {
+    "id": null,
+    "idempotency_key": null
+  },
+  "type": "customer.subscription.updated"
+}

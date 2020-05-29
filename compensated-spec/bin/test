@@ -10,3 +10,5 @@ set -vx
 
 # Run RSpec
 bin/rspec
+# Run Cucumber
+bin/cucumber
