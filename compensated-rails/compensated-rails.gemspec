@@ -7,8 +7,8 @@ require "compensated/rails/version"
 Gem::Specification.new do |spec|
   spec.name        = "compensated-rails"
   spec.version     = Compensated::Rails::VERSION
-  spec.authors     = ["Tom"]
-  spec.email       = ["tom@zinc.coop"]
+  spec.authors     = ["Zinc Collective LLC"]
+  spec.email       = ["hello@zinc.coop"]
   spec.homepage    = "https://github.com/zinc-collective/compensated"
   spec.summary     = "Rails installer for Compensated Ruby. Get paid!"
   spec.description = "Start using Compensated Ruby in your Rails project. Make handling transactions slightly less of a nightmare."
