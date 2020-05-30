@@ -33,4 +33,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'compensated', "0.1.0.pre13"
 
   spec.add_development_dependency "sqlite3"
+  spec.add_development_dependency "rspec-rails"
 end
