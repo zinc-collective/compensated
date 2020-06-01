@@ -14,9 +14,11 @@ if [ -z ${CI+x} ]; then
   (cd compensated-ruby && bin/setup)
   (cd compensated-proxy && bin/setup)
   (cd compensated-spec && bin/setup)
+  (cd compensated-rails && bin/setup)
 else
   echo "A CI build, dispatch the compensated-ruby module's setup script"
   (cd compensated-ruby && bin/setup)
   (cd compensated-proxy && bin/setup)
   (cd compensated-spec && bin/setup)
+  (cd compensated-rails && bin/setup)
 fi

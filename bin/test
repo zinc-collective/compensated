@@ -14,9 +14,11 @@ if [ ! -z ${CI+x} ]; then
   (cd compensated-ruby && bin/test)
   (cd compensated-proxy && bin/test)
   (cd compensated-spec && bin/test)
+  (cd compensated-rails && bin/test)
 else
   echo "Testing locally, dispatch the compensated-ruby module's full test suite"
   (cd compensated-ruby && bin/test)
   (cd compensated-proxy && bin/test)
   (cd compensated-spec && bin/test)
+  (cd compensated-rails && bin/test)
 fi
