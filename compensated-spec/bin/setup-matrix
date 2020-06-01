@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -euo pipefail
+IFS=$'\n\t'
+set -vx
+
+supported_versions=(2.4.9 2.5.7 2.6.5 2.7.0)
+for version in "${supported_versions[@]}" ; do
+  RBENV_VERSION=$version bin/setup
+done
