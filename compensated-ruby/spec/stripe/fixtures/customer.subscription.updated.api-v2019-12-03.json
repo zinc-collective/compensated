@@ -12,7 +12,7 @@
       "billing_thresholds": null,
       "cancel_at": null,
       "cancel_at_period_end": false,
-      "canceled_at": <%= value(within: [:data, :object, :canceled_at], default: nil) %>,
+      "canceled_at": null,
       "collection_method": "charge_automatically",
       "created": 1581145200,
       "current_period_end": 1588921200,
