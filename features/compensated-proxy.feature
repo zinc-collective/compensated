@@ -1,3 +1,4 @@
+@unwired
 Feature: Forwarding Proxy
   In order to leverage Compensated's event standardization
   As a Client who doesn't use Ruby

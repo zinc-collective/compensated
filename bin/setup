@@ -20,3 +20,6 @@ else
   (cd compensated-proxy && bin/setup)
   (cd compensated-spec && bin/setup)
 fi
+
+# We use cucumber-js for system and integration testing
+npm install --save-dev cucumber
