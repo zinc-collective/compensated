@@ -22,4 +22,5 @@ else
 fi
 
 # We use cucumber-js for system and integration testing
-npm install --save-dev cucumber
+# We use `uuid` to generate random strings
+npm install --save-dev cucumber uuid

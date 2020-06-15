@@ -1,19 +1,17 @@
 const { Given, When, Then } = require('cucumber')
+const Sandbox = require('./sandbox');
 
 Given('Compensated is configured with a clean {paymentGateway} account', function (paymentGateway) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+  return this.sandbox = new Sandbox(paymentGateway)
 });
 
-Given('there is a compensated.json with the following data:', function (docString) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+Given('there is a compensated.json with the following data:', function (json) {
+  return this.sandbox.createFileSync('compensated.json', json)
 });
 
 
 When('I run `compensated apply`', function () {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending';
+  return this.sandbox.executeSync('bundle exec compensated apply')
 });
 
 Then(

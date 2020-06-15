@@ -4,3 +4,6 @@ node_modules
 # Since we're only using node for test infras
 # it feels odd to check-in the package-lock.json
 package-lock.json
+
+# Probably don't want tmp files to persist between dev machines.
+tmp
