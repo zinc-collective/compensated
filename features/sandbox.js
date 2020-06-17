@@ -1,7 +1,6 @@
-const fs = require('fs');
-const { execSync } = require('child_process');
-const { v4: uuidv4 } = require('uuid');
-
+const fs = require('fs')
+const { execSync } = require('child_process')
+const { v4: uuidv4 } = require('uuid')
 
 /*
  * A Sandbox lets us create and destroy our testing environment
@@ -10,48 +9,48 @@ const { v4: uuidv4 } = require('uuid');
  * the filesystem that we can dump temporary files in.
  */
 module.exports = class Sandbox {
-  constructor( paymentGateway) {
+  constructor (paymentGateway) {
     this.paymentGateway = paymentGateway
     this.runId = uuidv4()
 
     this.createTempDirectory()
 
     this.createFileSync('Gemfile', gemfileTemplate)
-    this.executeSync(`bundle`)
+    this.executeSync('bundle')
   }
 
   /*
    * The location where the Sandbox stores any files useful at runtime
    */
-  get temporaryDirectory() {
+  get temporaryDirectory () {
     return `${sandboxDir}/${this.paymentGateway}-${this.runId}`
   }
 
   /*
    * Create a file in the test sandbox synchronously.
    */
-  createFileSync(fileName, contents) {
+  createFileSync (fileName, contents) {
     return fs.writeFileSync(`${this.temporaryDirectory}/${fileName}`, contents)
   }
 
   /*
    * Create a file in the test sandbox synchronously.
    */
-  executeSync(command) {
+  executeSync (command) {
     return execSync(command, { cwd: this.temporaryDirectory })
   }
 
-  createTempDirectory() {
-    if (!fs.existsSync(this.temporaryDirectory)){
-      fs.mkdirSync(this.temporaryDirectory);
+  createTempDirectory () {
+    if (!fs.existsSync(this.temporaryDirectory)) {
+      fs.mkdirSync(this.temporaryDirectory)
     }
   }
 }
 
 // Location to store sandbox files
-const sandboxDir = './tmp';
-if (!fs.existsSync(sandboxDir)){
-  fs.mkdirSync(sandboxDir);
+const sandboxDir = './tmp'
+if (!fs.existsSync(sandboxDir)) {
+  fs.mkdirSync(sandboxDir)
 }
 
 // Default gemfile for the compensated sandbox
