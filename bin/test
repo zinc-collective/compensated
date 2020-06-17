@@ -24,4 +24,4 @@ fi
 echo "Running feature specs"
 # This skips the feature specs that are not wired in yet, are working on,
 # or have not been started yet.
-npx cucumber-js --tags "not @unwired and not @wip and not @later"
+npx cucumber-js --tags "not @unwired and not @wip and not @later and not @no-ci"
