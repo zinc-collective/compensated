@@ -11,7 +11,7 @@ Feature: Using Fixtures
 
   Scenario: Applying an interpolated fixture within rspec
     Given we have included the `Compensated::Spec::Helpers` mixin in my testing framework
-    When we generate the "stripe/customer.subscription.deleted.api-v2019-12-03.json" fixture with the following data:
+    When we generate the "stripe/customer.subscription.deleted.api-v2019-12-03.json" fixture with the following overrides:
       | location             | value                  |
       | $.data.object.ended_at | 1576716505  |
     Then the fixture output has 1576716505 at "$.data.object.ended_at"

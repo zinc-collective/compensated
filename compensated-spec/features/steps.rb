@@ -6,7 +6,7 @@ When("we generate the {string} fixture") do |fixture_name|
   @fixture_output = compensated_event_body(fixture_name)
 end
 
-When("we generate the {string} fixture with the following data:") do |fixture_name, table|
+When("we generate the {string} fixture with the following overrides:") do |fixture_name, table|
   @fixture_output = compensated_event_body(fixture_name, overrides: table.hashes)
 end
 

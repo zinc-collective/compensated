@@ -3,9 +3,8 @@ module Compensated
   module Stripe
     RSpec.describe EventParser do
       include Compensated::Spec::Helpers
-      let(:interpolate) { {} }
-      let(:template_file_path) { fixture_path(__dir__, fixture) }
-      let(:request) { fake_request(template_file_path, interpolate: interpolate) }
+      let(:interpolate) { [] }
+      let(:request) { compensated_fake_request("stripe/#{fixture}", overrides: interpolate) }
 
       it "Adds itself to the list of event parses available to compensated" do
         expect(Compensated.event_parsers.find { |ep| ep.instance_of?(Stripe::EventParser) }).not_to be_nil
@@ -249,12 +248,12 @@ module Compensated
                 subject(:subscription) { product[:subscription] }
                 it { is_expected.to include(period: { start: Time.at(1586329200), end: Time.at(1588921200) }) }
                 context 'when the subscription does not have a canceled_at value set' do
-                  let(:interpolate) { { data: { object: { canceled_at: nil } } } }
+                  let(:interpolate) { [ {location: "$.data.object.canceled_at", value: nil }] }
                   it { is_expected.to include(status: :active) }
                 end
 
                 context 'when the subscription does have a canceled_at value set' do
-                  let(:interpolate) { { data: { object: { canceled_at: 1234 } } } }
+                  let(:interpolate) { [ {location: "$.data.object.canceled_at", value: 1234 }] }
                   it { is_expected.to include(status: :canceled) }
                 end
 
@@ -284,12 +283,16 @@ module Compensated
               describe ":subscription" do
                 subject(:subscription) { product[:subscription] }
                 context 'when data.object.ended_at is nil and data.object.canceled_at is present' do
-                  let(:interpolate) { { data: { object: { ended_at: nil, canceled_at: 12345 } } } }
+                  let(:interpolate) { [{ location: "$.data.object.ended_at", value: nil },
+                                       { location: "$.data.object.canceled_at", value: 12345 }] }
                   it { is_expected. to include(status: :canceled) }
                 end
 
                 context 'when data.object.ended_at is present and data.object.canceled_at is present' do
-                  let(:interpolate) { { data: { object: { ended_at: 12345, canceled_at: 12345 } } } }
+                  let(:interpolate) do
+                    [{ location: "$.data.object.ended_at", value: 12345 }, { location: "$.data.object.canceled_at", value: 12345 }]
+                  end
+
                   it { is_expected. to include(status: :ended) }
                 end
               end

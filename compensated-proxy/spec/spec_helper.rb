@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'bundler/setup'
+require 'compensated/spec'
 require 'compensated/proxy'
 
 RSpec.configure do |config|
