@@ -32,3 +32,16 @@ defineParameterType({
   regexp: /Stripe/,
   transformer: (pg) => pg
 })
+
+
+/*
+ * A Custom Parameter Type for our Compensated Packages
+ *
+ * @see {@link https://cucumber.io/docs/cucumber/cucumber-expressions/#parameter-types}
+ */
+
+ defineParameterType({
+  name: 'compensatedPackage',
+  regexp: /(compensated-ruby|compensated-proxy|compensated-spec)/,
+  transformer: (package) => package
+})

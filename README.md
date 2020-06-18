@@ -22,7 +22,9 @@ Compensated's architecture draws from prior art such as [griddler](https://githu
 
 ## Contributing
 
-To get started, make sure you have [rbenv](https://github.com/rbenv/rbenv) installed, clone the repository and run `bin/setup-matrix` then run `bin/test-matrix`.
+To get started, make sure you have [rbenv](https://github.com/rbenv/rbenv) installed, clone the repository and run `bin/setup` then run `bin/test`.
+
+You can also run the tests against all supported ruby versions by running `npx cucumber-js features/language-support.feature` (Note: this installs every version of Ruby we expect `compensated` to work with on your machine; and can take up to ~60m, depending on your computers compilation performance.)
 
 For further guidance, See [CONTRIBUTING.md](CONTRIBUTING.md).
 

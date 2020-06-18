@@ -23,12 +23,12 @@ When('I run `compensated apply`', function () {
 })
 
 When(
-  'I run the setup and test scripts for compensated-ruby on each version',
+  'I run the setup and test scripts for {compensatedPackage} on each version',
   { timeout: -1 },
-  async function () {
+  async function (compensatedPackage) {
     this.commandResults = await Promise.all(
       this.languageMatrix.map((language) =>
-        new ContributorSandbox(language, 'compensated-ruby').spawn(
+        new ContributorSandbox(language, compensatedPackage).spawn(
           'bin/setup && bin/test'
         )
       )

@@ -12,3 +12,25 @@ Feature: Language Support
       | 2.7.1  |
     When I run the setup and test scripts for compensated-ruby on each version
     Then all the commands passed
+
+  @no-ci
+  Scenario: `compensated-proxy` language support
+    Given the following language test matrix:
+      | ruby   |
+      | 2.4.10 |
+      | 2.5.8  |
+      | 2.6.6  |
+      | 2.7.1  |
+    When I run the setup and test scripts for compensated-proxy on each version
+    Then all the commands passed
+
+  @no-ci
+  Scenario: `compensated-spec` language support
+    Given the following language test matrix:
+      | ruby   |
+      | 2.4.10 |
+      | 2.5.8  |
+      | 2.6.6  |
+      | 2.7.1  |
+    When I run the setup and test scripts for compensated-spec on each version
+    Then all the commands passed
