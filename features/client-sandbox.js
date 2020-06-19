@@ -8,7 +8,7 @@ const { v4: uuidv4 } = require('uuid')
  * program, so the sandbox is going to be a local directory on
  * the filesystem that we can dump temporary files in.
  */
-module.exports = class Sandbox {
+module.exports = class ClientSandbox {
   constructor (paymentGateway) {
     this.paymentGateway = paymentGateway
     this.runId = uuidv4()
