@@ -1,3 +1,4 @@
+require 'json'
 require 'jsonpath'
 require 'compensated'
 require "compensated/spec/version"
@@ -52,12 +53,12 @@ module Compensated
 
       # @return [String] interpolated result of applying the data to the template
       def result
-        JSON.dump(interpolated_output)
+        interpolated_output
       end
 
       private def interpolated_output
         overrides.reduce(template) do |result, override|
-          JSON.dump(JsonPath.for(result).gsub(override["location"]) { override["value"] }.to_hash)
+          JSON.dump(JsonPath.for(result).gsub(override.fetch("location", override[:location])) { override.fetch("value", override[:value]) }.to_hash)
         end
       end
 

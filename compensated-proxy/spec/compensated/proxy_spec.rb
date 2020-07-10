@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require_relative '../../../compensated-ruby/spec/fixtures'
-
 require 'compensated/stripe'
 RSpec.describe Compensated::Proxy do
   include Compensated::Spec::Helpers
@@ -10,11 +8,8 @@ RSpec.describe Compensated::Proxy do
     expect(Compensated::Proxy::VERSION).not_to be nil
   end
 
-  let(:interpolate) { {} }
-  # TODO: Maybe pull the spec helpers into a `compensated-spec` gem
-  # that will make it easier to leverage the fixtures when testing compensated.
-  let(:template_file_path) { fixture_path(Pathname.new(__dir__).join('..', '..', '..', 'compensated-ruby', 'spec', 'stripe'), fixture) }
-  let(:request) { fake_request(template_file_path, interpolate: interpolate) }
+  let(:overrides) { [] }
+  let(:request) { compensated_fake_request("stripe/#{fixture}", overrides: overrides) }
   let(:fixture) { 'customer.subscription.updated.api-v2019-12-03.json' }
 
   it 'forwards the standardized body without the raw body' do
