@@ -29,7 +29,7 @@ Gem::Specification.new do |spec|
 
   spec.files = Dir["{app,config,db,lib}/**/*", "Rakefile", "README.md"]
 
-  spec.add_dependency "rails", "~> 6.0.2", ">= 6.0.2.2"
+  spec.add_dependency "rails", ">= 5.0", "< 7.0"
   spec.add_dependency 'compensated', "0.1.0.pre13"
 
   spec.add_development_dependency "sqlite3"
