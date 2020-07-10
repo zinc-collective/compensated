@@ -23,6 +23,12 @@ if [ -z ${CI+x} ]; then
     rbenv install -s $RBENV_VERSION
   fi
 fi
-gem install bundler
-# Install the gems for compensated-ruby
-bundle install
+
+ruby -v | grep 'ruby 2.4' &> /dev/null
+if [ $? == 0]; then
+  echo "Skipping Ruby 2.4"
+else
+  gem install bundler
+  # Install the gems for compensated-ruby
+  bundle install
+fi

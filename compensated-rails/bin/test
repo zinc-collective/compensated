@@ -8,5 +8,10 @@ set -euo pipefail
 IFS=$'\n\t'
 set -vx
 
-# Run RSpec
-bin/rspec
+ruby -v | grep 'ruby 2.4' &> /dev/null
+if [ $? == 0]; then
+  echo "Skipping Ruby 2.4"
+else
+  # Run RSpec
+  bin/rspec
+fi
