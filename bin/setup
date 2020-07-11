@@ -8,18 +8,30 @@ set -euo pipefail
 IFS=$'\n\t'
 set -vx
 
-# Seam to conditionalize different behavior in CI and local
+
+# Only install Ruby locally, CI already has Ruby installed
 if [ -z ${CI+x} ]; then
-  echo "A local build, dispatch the compensated-ruby module's setup script"
-  (cd compensated-ruby && bin/setup)
-  (cd compensated-proxy && bin/setup)
-  (cd compensated-spec && bin/setup)
-else
-  echo "A CI build, dispatch the compensated-ruby module's setup script"
-  (cd compensated-ruby && bin/setup)
-  (cd compensated-proxy && bin/setup)
-  (cd compensated-spec && bin/setup)
+  if command -v rbenv; then
+    # Install ruby build if it's not installed yet
+    if [ ! -d "$(rbenv root)/plugins" ]; then
+      echo "Installing ruby-build"
+      mkdir -p "$(rbenv root)"/plugins
+      git clone https://github.com/rbenv/ruby-build.git "$(rbenv root)"/plugins/ruby-build
+    fi
+
+    # Install ruby and bundler if they are not installed
+    if [ ! -z ${RBENV_VERSION+x} ]; then
+      rbenv install -s $RBENV_VERSION
+    fi
+  fi;
 fi
+
+gem install bundler
+
+(cd compensated-ruby && bin/setup)
+(cd compensated-proxy && bin/setup)
+(cd compensated-spec && bin/setup)
+
 
 # We use cucumber-js for system and integration testing
 # We use `uuid` to generate random strings
