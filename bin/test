@@ -8,20 +8,10 @@ set -euo pipefail
 IFS=$'\n\t'
 set -vx
 
-# Seam to conditionalize different behavior in CI and local
-if [ ! -z ${CI+x} ]; then
-  echo "Testing on CI, dispatch the compensated-ruby module's full test suite"
-  (cd compensated-ruby && bin/test)
-  (cd compensated-proxy && bin/test)
-  (cd compensated-spec && bin/test)
-  (cd compensated-rails && bin/test)
-else
-  echo "Testing locally, dispatch the compensated-ruby module's full test suite"
-  (cd compensated-ruby && bin/test)
-  (cd compensated-proxy && bin/test)
-  (cd compensated-spec && bin/test)
-  (cd compensated-rails && bin/test)
-fi
+(cd compensated-ruby && bin/test)
+(cd compensated-proxy && bin/test)
+(cd compensated-spec && bin/test)
+(cd compensated-rails && bin/test)
 
 echo "Running feature specs"
 # This skips the feature specs that are not wired in yet, are working on,
