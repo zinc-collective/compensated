@@ -25,4 +25,4 @@ $ gem install compensated-rails
 Contribution directions go here.
 
 ## License
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+While everyone has access to the source code, only non-commercial use is permitted. See [LICENSE.md for details](LICENSE.md).
