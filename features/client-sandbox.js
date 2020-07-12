@@ -1,6 +1,8 @@
-const fs = require('fs')
-const { execSync } = require('child_process')
-const { v4: uuidv4 } = require('uuid')
+const fs = require("fs");
+require('dotenv').config();
+const { execSync } = require("child_process");
+const { v4: uuidv4 } = require("uuid");
+const PaymentGateway = require("./support/PaymentGateway");
 
 /*
  * A Sandbox lets us create and destroy our testing environment
@@ -8,54 +10,61 @@ const { v4: uuidv4 } = require('uuid')
  * program, so the sandbox is going to be a local directory on
  * the filesystem that we can dump temporary files in.
  */
-module.exports = class ClientSandbox {
-  constructor (paymentGateway) {
-    this.paymentGateway = paymentGateway
-    this.runId = uuidv4()
 
-    this.createTempDirectory()
+ module.exports = class ClientSandbox {
+  constructor() {
+    this.runId = uuidv4();
 
-    this.createFileSync('Gemfile', gemfileTemplate)
-    this.executeSync('bundle')
+    this.createTempDirectory();
+
+    this.createFileSync("Gemfile", gemfileTemplate);
+    this.executeSync("bundle");
   }
 
   /*
    * The location where the Sandbox stores any files useful at runtime
    */
-  get temporaryDirectory () {
-    return `${sandboxDir}/${this.paymentGateway}-${this.runId}`
+  get temporaryDirectory() {
+    return `${sandboxDir}/${this.runId}`;
   }
 
   /*
    * Create a file in the test sandbox synchronously.
    */
-  createFileSync (fileName, contents) {
-    return fs.writeFileSync(`${this.temporaryDirectory}/${fileName}`, contents)
+  createFileSync(fileName, contents) {
+    return fs.writeFileSync(`${this.temporaryDirectory}/${fileName}`, contents);
   }
 
   /*
    * Create a file in the test sandbox synchronously.
    */
-  executeSync (command) {
-    return execSync(command, { cwd: this.temporaryDirectory })
+  executeSync(command) {
+    return execSync(command, { cwd: this.temporaryDirectory });
   }
 
-  createTempDirectory () {
+  createTempDirectory() {
     if (!fs.existsSync(this.temporaryDirectory)) {
-      fs.mkdirSync(this.temporaryDirectory)
+      fs.mkdirSync(this.temporaryDirectory);
     }
   }
-}
+
+  productsWhere(type, filter) {
+    return new PaymentGateway({ type, secretKey: process.env.STRIPE_SECRET_KEY })
+      .products()
+      .then((products) =>
+        products.filter((product) => product.name === filter.name)
+      );
+  }
+};
 
 // Location to store sandbox files
-const sandboxDir = './tmp'
+const sandboxDir = "./tmp";
 if (!fs.existsSync(sandboxDir)) {
-  fs.mkdirSync(sandboxDir)
+  fs.mkdirSync(sandboxDir);
 }
 
 // Default gemfile for the compensated sandbox
-const gemfileTemplate =
-`
+const gemfileTemplate = `
 source "https://rubygems.org"
 gem "compensated", path: "../../compensated-ruby"
-`
+`;

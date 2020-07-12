@@ -1,59 +1,60 @@
-const { Given, When, Then } = require('cucumber')
-const ClientSandbox = require('./client-sandbox')
-const ContributorSandbox = require('./contributor-sandbox')
-const assert = require('assert').strict
+const { Given, When, Then } = require("cucumber");
+const ClientSandbox = require("./client-sandbox");
+const ContributorSandbox = require("./contributor-sandbox");
+const assert = require("assert").strict;
 
 Given(
-  'Compensated is configured with a clean {paymentGateway} account',
+  "Compensated is configured with a clean {paymentGateway} account",
   function (paymentGateway) {
-    return (this.clientSandbox = new ClientSandbox(paymentGateway))
+    return (this.clientSandbox = new ClientSandbox(paymentGateway));
   }
-)
+);
 
-Given('the following language test matrix:', function (languageMatrix) {
-  this.languageMatrix = languageMatrix.hashes()
-})
+Given("the following language test matrix:", function (languageMatrix) {
+  this.languageMatrix = languageMatrix.hashes();
+});
 
-Given('there is a compensated.json with the following data:', function (json) {
-  return this.clientSandbox.createFileSync('compensated.json', json)
-})
+Given("there is a compensated.json with the following data:", function (json) {
+  return this.clientSandbox.createFileSync("compensated.json", json);
+});
 
-When('I run `compensated apply`', function () {
-  return this.clientSandbox.executeSync('bundle exec compensated apply')
-})
+When("I run `compensated apply`", function () {
+  return this.clientSandbox.executeSync("bundle exec compensated apply");
+});
 
 When(
-  'I run the setup and test scripts for {compensatedPackage} on each version',
+  "I run the setup and test scripts for {compensatedPackage} on each version",
   { timeout: -1 },
   async function (compensatedPackage) {
     this.commandResults = await Promise.all(
       this.languageMatrix.map((language) =>
         new ContributorSandbox(language, compensatedPackage).spawn(
-          'bin/setup && bin/test'
+          "bin/setup && bin/test"
         )
       )
-    )
+    );
   }
-)
+);
 
 Then(
-  'the {string} Product has a {string} Price of {price} in {paymentGateway}',
+  "the {string} Product has a {string} Price of {price} in {paymentGateway}",
   function (productName, priceName, price, paymentGateway) {
     // Write code here that turns the phrase above into concrete actions
-    return 'pending'
+    return "pending";
   }
-)
+);
 
-Then('a {string} Product is created in {paymentGateway}', function (
-  string,
+Then("a {string} Product is created in {paymentGateway}", async function (
+  name,
   paymentGateway
 ) {
-  // Write code here that turns the phrase above into concrete actions
-  return 'pending'
-})
+  return this.clientSandbox.productsWhere(paymentGateway, { name }).then(
+    (products) => assert(products[0], `Product "${name}" does not exist`)
+  )
+});
 
-Then('all the commands passed', function () {
+Then("all the commands passed", function () {
   this.commandResults.forEach((result) => {
-    assert.strictEqual(result.code, 0)
-  })
-})
+    assert.strictEqual(result.code, 0);
+  });
+});

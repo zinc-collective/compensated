@@ -7,3 +7,4 @@ package-lock.json
 
 # Probably don't want tmp files to persist between dev machines.
 tmp
+.env

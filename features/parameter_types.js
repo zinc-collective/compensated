@@ -30,8 +30,10 @@ defineParameterType({
 defineParameterType({
   name: 'paymentGateway',
   regexp: /Stripe/,
-  transformer: (pg) => pg
+  transformer: (type) => type
 })
+
+
 
 
 /*
