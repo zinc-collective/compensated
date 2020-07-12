@@ -9,16 +9,17 @@ Feature: Cross-Platform Selling
   And there is a compensated.json with the following data:
   """
   {
+    "payment_processors": ["stripe"],
     "products": [
       {
         "name": "Robot Delivery",
         "prices": [
-          { "nickname": "Small month-to-month", "amount": 10_00, "currency": "usd", "interval": "monthly" },
-          { "nickname": "Small full-year", "amount": 100_00, "currency": "usd", "interval": "annual" },
-          { "nickname": "Medium month-to-month", "amount": 20_00, "currency": "usd", "interval": "monthly" },
-          { "nickname": "Medium full-year", "amount": 200_00, "currency": "usd", "interval": "annual" },
-          { "nickname": "Large month-to-month", "amount": 40_00, "currency": "usd", "interval": "monthly" },
-          { "nickname": "Large full-year", "amount": 400_00, "currency": "usd", "interval": "annual" }
+          { "nickname": "Small month-to-month", "amount": 1000, "currency": "usd", "interval": "monthly" },
+          { "nickname": "Small full-year", "amount": 10000, "currency": "usd", "interval": "annual" },
+          { "nickname": "Medium month-to-month", "amount": 2000, "currency": "usd", "interval": "monthly" },
+          { "nickname": "Medium full-year", "amount": 20000, "currency": "usd", "interval": "annual" },
+          { "nickname": "Large month-to-month", "amount": 4000, "currency": "usd", "interval": "monthly" },
+          { "nickname": "Large full-year", "amount": 40000, "currency": "usd", "interval": "annual" }
         ]
       }
     ]

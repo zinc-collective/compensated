@@ -1,3 +1,6 @@
 #!/usr/bin/env ruby
+# frozen_string_literal: true
 
-puts "I AM A SCRIPT"
+require_relative '../lib/compensated/cli'
+
+Compensated::CLI.run(ARGV)
