@@ -1,6 +1,8 @@
 const fs = require("fs");
+require('dotenv').config();
 const { execSync } = require("child_process");
 const { v4: uuidv4 } = require("uuid");
+const PaymentGateway = require("./support/PaymentGateway");
 
 /*
  * A Sandbox lets us create and destroy our testing environment
@@ -8,9 +10,9 @@ const { v4: uuidv4 } = require("uuid");
  * program, so the sandbox is going to be a local directory on
  * the filesystem that we can dump temporary files in.
  */
-module.exports = class ClientSandbox {
-  constructor(paymentGateway) {
-    this.paymentGateway = paymentGateway;
+
+ module.exports = class ClientSandbox {
+  constructor() {
     this.runId = uuidv4();
 
     this.createTempDirectory();
@@ -23,7 +25,7 @@ module.exports = class ClientSandbox {
    * The location where the Sandbox stores any files useful at runtime
    */
   get temporaryDirectory() {
-    return `${sandboxDir}/${this.paymentGateway}-${this.runId}`;
+    return `${sandboxDir}/${this.runId}`;
   }
 
   /*
@@ -44,6 +46,14 @@ module.exports = class ClientSandbox {
     if (!fs.existsSync(this.temporaryDirectory)) {
       fs.mkdirSync(this.temporaryDirectory);
     }
+  }
+
+  productsWhere(type, filter) {
+    return new PaymentGateway({ type, secretKey: process.env.STRIPE_SECRET_KEY })
+      .products()
+      .then((products) =>
+        products.filter((product) => product.name === filter.name)
+      );
   }
 };
 

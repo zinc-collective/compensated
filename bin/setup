@@ -37,4 +37,4 @@ gem install --conservative rbhint -v 0.87.1.rc1
 
 # We use cucumber-js for system and integration testing
 # We use `uuid` to generate random strings
-npm install --save-dev cucumber uuid child-process-promise
+npm install --save-dev cucumber uuid child-process-promise dotenv stripe

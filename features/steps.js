@@ -44,12 +44,13 @@ Then(
   }
 );
 
-Then("a {string} Product is created in {paymentGateway}", function (
-  string,
+Then("a {string} Product is created in {paymentGateway}", async function (
+  name,
   paymentGateway
 ) {
-  // Write code here that turns the phrase above into concrete actions
-  return "pending";
+  return this.clientSandbox.productsWhere(paymentGateway, { name }).then(
+    (products) => assert(products[0], `Product "${name}" does not exist`)
+  )
 });
 
 Then("all the commands passed", function () {
