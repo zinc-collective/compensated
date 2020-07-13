@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# Dispatches each module's full test suite
+
+# Configure the script to be verbose and fail early
+# See: https://ss64.com/bash/set.html
+# See: https://bash.cyberciti.biz/guide/$IFS
+set -u
+IFS=$'\n\t'
+set -vx
+
+rbhint -a **/*.{rb,gemspec} **/Gemfile
+npx prettier **/*.js --write
