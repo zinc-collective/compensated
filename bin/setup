@@ -26,7 +26,8 @@ if [ -z ${CI+x} ]; then
   fi;
 fi
 
-gem install bundler
+gem install --conservative bundler
+gem install --conservative rbhint -v 0.87.1.rc1
 
 (cd compensated-ruby && bin/setup)
 (cd compensated-proxy && bin/setup)

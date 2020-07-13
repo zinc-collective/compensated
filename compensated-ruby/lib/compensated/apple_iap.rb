@@ -1,4 +1,4 @@
-require_relative "apple_iap/event_parser"
+require_relative 'apple_iap/event_parser'
 
 module Compensated
   module AppleIap

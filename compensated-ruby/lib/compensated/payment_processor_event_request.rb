@@ -1,4 +1,4 @@
-require "forwardable"
+require 'forwardable'
 module Compensated
   # Decorator for the Rack::Request to provide Compensated specific
   # functionality
@@ -18,6 +18,7 @@ module Compensated
     # @returns Hash
     def data
       return @data if defined?(@data) && !@data.nil?
+
       if request.form_data?
         @data = request.params
       elsif !body.nil?

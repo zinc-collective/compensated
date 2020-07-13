@@ -1,5 +1,5 @@
-require_relative "compensated/version"
-require_relative "compensated/payment_processor_event_request_handler"
+require_relative 'compensated/version'
+require_relative 'compensated/payment_processor_event_request_handler'
 
 module Compensated
   class Error < StandardError; end
@@ -29,11 +29,11 @@ module Compensated
   # In cases where the default JSON parser is unacceptable, configure
   # the json engine using `Compensated.json_engine = <Your preferred JSON parser>`
   def self.json_engine
-    require "json" unless defined?(@json_engine)
+    require 'json' unless defined?(@json_engine)
     @json_engine ||= JSON
   end
 
-  def self.json_engine=json_engine
+  def self.json_engine=(json_engine)
     @json_engine = json_engine
   end
 

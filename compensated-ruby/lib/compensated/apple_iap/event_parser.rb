@@ -1,10 +1,11 @@
-require "compensated/event_parser"
+require 'compensated/event_parser'
 module Compensated
   module AppleIap
     class EventParser < Compensated::EventParser
-      SUPPORTED_TYPES = ["CANCEL", "DID_CHANGE_RENEWAL_PREF", "DID_FAIL_TO_RENEW", "DID_RECOVER", "INTERACTIVE_RENEWAL", "RENEWAL", "INITIAL_BUY", "DID_CHANGE_RENEWAL_STATUS"]
+      SUPPORTED_TYPES = %w[CANCEL DID_CHANGE_RENEWAL_PREF DID_FAIL_TO_RENEW DID_RECOVER INTERACTIVE_RENEWAL RENEWAL INITIAL_BUY DID_CHANGE_RENEWAL_STATUS].freeze
       def parses?(request)
         return false unless request.data
+
         request.data[:notification_type] &&
           SUPPORTED_TYPES.include?(request.data[:notification_type])
       end
@@ -22,7 +23,7 @@ module Compensated
           payment_processor: :apple_iap,
           customer: customer(data),
           products: products(data),
-          timestamp: timestamp(data),
+          timestamp: timestamp(data)
         }.compact
       end
 
@@ -44,14 +45,14 @@ module Compensated
             sku: receipt_data(data)[:product_id],
             purchased: DateTime.parse(receipt_data(data)[:purchase_date]),
             expiration: DateTime.parse(receipt_data(data)[:expires_date_formatted]),
-            cancelled: cancellation_date(data),
-          }.compact,
+            cancelled: cancellation_date(data)
+          }.compact
         ]
       end
 
       def customer(data)
         {
-          id: receipt_data(data)[:original_transaction_id],
+          id: receipt_data(data)[:original_transaction_id]
         }
       end
 
@@ -59,6 +60,7 @@ module Compensated
 
       def cancellation_date(data)
         return unless receipt_data(data)[:cancellation_date]
+
         DateTime.parse(receipt_data(data)[:cancellation_date])
       end
     end

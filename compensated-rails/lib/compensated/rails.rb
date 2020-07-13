@@ -1,4 +1,4 @@
-require "compensated/rails/engine"
+require 'compensated/rails/engine'
 
 module Compensated
   module Rails

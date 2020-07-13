@@ -10,13 +10,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_07_02_002827) do
-  create_table "payment_processor_events", force: :cascade do |t|
-    t.text "raw_body"
-    t.string "raw_event_type", null: false
-    t.string "raw_event_id"
-    t.string "payment_processor", default: "unknown"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+ActiveRecord::Schema.define(version: 20_190_702_002_827) do
+  create_table 'payment_processor_events', force: :cascade do |t|
+    t.text 'raw_body'
+    t.string 'raw_event_type', null: false
+    t.string 'raw_event_id'
+    t.string 'payment_processor', default: 'unknown'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
   end
 end
