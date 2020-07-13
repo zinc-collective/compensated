@@ -1,8 +1,8 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
 # Specify your gem's dependencies in compensated-proxy.gemspec
 gemspec
 
-gem "rake", "~> 12.0"
-gem "rspec", "~> 3.0"
-gem "compensated-spec", path: "../compensated-spec"
+gem 'compensated-spec', path: '../compensated-spec'
+gem 'rake', '~> 12.0'
+gem 'rspec', '~> 3.0'

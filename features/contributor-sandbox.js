@@ -1,4 +1,4 @@
-const { spawn } = require('child-process-promise')
+const { spawn } = require("child-process-promise");
 
 /*
  * The ContributorSandbox allows us to execute commands on a
@@ -8,26 +8,26 @@ const { spawn } = require('child-process-promise')
  * programmatically and other such nonsense.
  */
 module.exports = class ContributorSandbox {
-  constructor (language, project) {
-    this.language = language
-    this.project = project
+  constructor(language, project) {
+    this.language = language;
+    this.project = project;
   }
 
   /*
    * Spawns a process within the project directory.
    */
-  async spawn (command) {
+  async spawn(command) {
     const promise = spawn(command, [], {
       cwd: this.project,
       shell: true,
-      capture: ['stdout', 'stderr'],
-      env: { ...process.env, ...this.env }
-    })
+      capture: ["stdout", "stderr"],
+      env: { ...process.env, ...this.env },
+    });
 
     try {
-      return promise
+      return promise;
     } catch (e) {
-      return console.error(e.stdout, e.stderr, this.env)
+      return console.error(e.stdout, e.stderr, this.env);
     }
   }
 
@@ -37,7 +37,7 @@ module.exports = class ContributorSandbox {
    * Useful for injecting different environment flags
    * when feature testing.
    */
-  get env () {
-    return { RBENV_VERSION: this.language.ruby }
+  get env() {
+    return { RBENV_VERSION: this.language.ruby };
   }
-}
+};

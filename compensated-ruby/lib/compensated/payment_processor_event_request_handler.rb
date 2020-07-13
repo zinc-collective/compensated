@@ -1,4 +1,4 @@
-require_relative "payment_processor_event_request"
+require_relative 'payment_processor_event_request'
 module Compensated
   # Normalizes events by passing them to an EventParser
   # Which transforms them into a hash that can be
@@ -25,8 +25,10 @@ module Compensated
 
     protected def event_parser
       return @event_parser unless @event_parser.nil?
+
       @event_parser = Compensated.event_parsers.find { |parser| parser.parses?(event_request) }
       raise NoParserForEventError, event_request.data if @event_parser.nil?
+
       @event_parser
     end
   end

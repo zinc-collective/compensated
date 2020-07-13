@@ -4,12 +4,12 @@ module Compensated
       transform(request.data)
     end
 
-    def parses?(request)
-      raise NotImplementedError("Implement in Child")
+    def parses?(_request)
+      raise NotImplementedError('Implement in Child')
     end
 
-    def transform(data)
-      raise NotImplementedError("Implement in Child")
+    def transform(_data)
+      raise NotImplementedError('Implement in Child')
     end
 
     # <b>DEPRECATED:</b> Please use <tt>transform</tt> instead.
@@ -18,8 +18,8 @@ module Compensated
       transform(data)
     end
 
-    def extract(data)
-      raise NotImplementedError("Implement in Child")
+    def extract(_data)
+      raise NotImplementedError('Implement in Child')
     end
   end
 end
