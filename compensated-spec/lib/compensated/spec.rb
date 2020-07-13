@@ -1,7 +1,7 @@
 require 'json'
 require 'jsonpath'
 require 'compensated'
-require "compensated/spec/version"
+require 'compensated/spec/version'
 
 module Compensated
   module Spec
@@ -26,7 +26,7 @@ module Compensated
       # @return Path Absolute path of fixture within the adapter's fixtures directory
       def compensated_fixture_path(fixture)
         adapter, *fixture = fixture.split('/')
-        File.expand_path(File.join(__dir__, 'spec', adapter, "fixtures", fixture))
+        File.expand_path(File.join(__dir__, 'spec', adapter, 'fixtures', fixture))
       end
 
       # An IO stream of an event fixtures' body
@@ -37,6 +37,7 @@ module Compensated
       # @return [StringIO]
       def compensated_fixture_io(fixture, overrides: {})
         return nil if fixture.nil?
+
         interpolator = Interpolator.new(overrides: overrides, template_path: compensated_fixture_path(fixture))
 
         StringIO.new(interpolator.result)
@@ -58,7 +59,7 @@ module Compensated
 
       private def interpolated_output
         overrides.reduce(template) do |result, override|
-          JSON.dump(JsonPath.for(result).gsub(override.fetch("location", override[:location])) { override.fetch("value", override[:value]) }.to_hash)
+          JSON.dump(JsonPath.for(result).gsub(override.fetch('location', override[:location])) { override.fetch('value', override[:value]) }.to_hash)
         end
       end
 

@@ -1,12 +1,13 @@
-require "webrick"
+require 'webrick'
 module Compensated
   module Gumroad
     class EventParser < Compensated::EventParser
       def parses?(request)
         # Gumroad pings are always form data
         return false unless request.form_data?
+
         keys = request.data.keys.map(&:to_sym)
-        keys.include?(:seller_id) && keys.include?(:product_id) && keys.include?(:product_permalink) && request.data["product_permalink"].include?("gum.co")
+        keys.include?(:seller_id) && keys.include?(:product_id) && keys.include?(:product_permalink) && request.data['product_permalink'].include?('gum.co')
       end
 
       # Transform Gumroad input data into Compensated event hash
@@ -23,32 +24,31 @@ module Compensated
           payment_processor: :gumroad,
           amount: {
             paid: data[:price].to_i,
-            currency: data[:currency].upcase,
+            currency: data[:currency].upcase
           },
           customer: {
             id: data[:purchaser_id].to_s,
             email: data[:email],
-            name: data[:full_name],
+            name: data[:full_name]
           },
-          timestamp: DateTime.parse(data[:sale_timestamp]),
+          timestamp: DateTime.parse(data[:sale_timestamp])
         }.compact
       end
 
       def extract(data_or_body)
         data = if data_or_body.respond_to?(:key)
-          data_or_body
-        else
-          data_from_string(data_or_body)
+                 data_or_body
+               else
+                 data_from_string(data_or_body)
         end
 
         # Ruby 2.4 doesn't support Hash#transform_keys
         data = if data.respond_to?(:transform_keys)
-          data.transform_keys(&:to_sym)
-        else
-          data.inject({}) do |hsh,(key,value)|
-            hsh[key.to_sym] = value
-            hsh
-          end
+                 data.transform_keys(&:to_sym)
+               else
+                 data.each_with_object({}) do |(key, value), hsh|
+                   hsh[key.to_sym] = value
+                 end
         end
       end
 

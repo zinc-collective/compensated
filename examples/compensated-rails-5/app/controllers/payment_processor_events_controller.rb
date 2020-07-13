@@ -9,9 +9,9 @@ class PaymentProcessorEventsController < ApplicationController
     # for conflict reconciliation, fraud detection, etc.
     #
     event = PaymentProcessorEvent.create(handler.normalized_event_data.slice(:raw_body,
-      :raw_event_type,
-      :raw_event_id,
-      :payment_processor))
+                                                                             :raw_event_type,
+                                                                             :raw_event_id,
+                                                                             :payment_processor))
     if event.persisted?
       head :ok
     else
@@ -26,7 +26,7 @@ class PaymentProcessorEventsController < ApplicationController
   # You will want to make a decision about what you want to do in the event
   # that compensated throws an error. At the very least, you will want
   # to send information to your exception tracker.
-  rescue Compensated::Error => _
+  rescue Compensated::Error => _e
     # If you don't care about particular errors
     # You can return a 200 success.
     #

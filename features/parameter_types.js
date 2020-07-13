@@ -1,13 +1,13 @@
-const { defineParameterType } = require('cucumber')
+const { defineParameterType } = require("cucumber");
 
 // Provides a programmatic interface for interacting with data
 // pull from the the {price} Cucumber Parameter Type
 class Price {
-  constructor (priceString) {
-    this.priceString = priceString
+  constructor(priceString) {
+    this.priceString = priceString;
   }
 }
-Price.parser = /\$?(\d+) (USD) billed (monthly|annually)/
+Price.parser = /\$?(\d+) (USD) billed (monthly|annually)/;
 
 /*
  * A custom Cucumber Parameter Type for reading Price data from steps.
@@ -15,10 +15,10 @@ Price.parser = /\$?(\d+) (USD) billed (monthly|annually)/
  * @see {@link https://cucumber.io/docs/cucumber/cucumber-expressions/#parameter-types}
  */
 defineParameterType({
-  name: 'price',
+  name: "price",
   regexp: Price.parser,
-  transformer: (priceString) => new Price(priceString)
-})
+  transformer: (priceString) => new Price(priceString),
+});
 
 /*
  * A Custom Parameter Type for Payment Gateways.
@@ -28,7 +28,7 @@ defineParameterType({
  * @see {@link https://cucumber.io/docs/cucumber/cucumber-expressions/#parameter-types}
  */
 defineParameterType({
-  name: 'paymentGateway',
+  name: "paymentGateway",
   regexp: /Stripe/,
   transformer: (type) => type
 })
@@ -42,8 +42,8 @@ defineParameterType({
  * @see {@link https://cucumber.io/docs/cucumber/cucumber-expressions/#parameter-types}
  */
 
- defineParameterType({
-  name: 'compensatedPackage',
+defineParameterType({
+  name: "compensatedPackage",
   regexp: /(compensated-ruby|compensated-proxy|compensated-spec)/,
-  transformer: (package) => package
-})
+  transformer: (package) => package,
+});

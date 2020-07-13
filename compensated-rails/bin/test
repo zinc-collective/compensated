@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+
+# Configure the script to be verbose and fail early
+# See: https://ss64.com/bash/set.html
+# See: https://bash.cyberciti.biz/guide/$IFS
+set -euo pipefail
+IFS=$'\n\t'
+set -vx
+
+# Run RSpec
+bin/rspec

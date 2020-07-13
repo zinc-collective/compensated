@@ -26,11 +26,13 @@ if [ -z ${CI+x} ]; then
   fi;
 fi
 
-gem install bundler
+gem install --conservative bundler
+gem install --conservative rbhint -v 0.87.1.rc1
 
 (cd compensated-ruby && bin/setup)
 (cd compensated-proxy && bin/setup)
 (cd compensated-spec && bin/setup)
+(cd compensated-rails && bin/setup)
 
 
 # We use cucumber-js for system and integration testing
