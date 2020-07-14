@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'boot'
 
 require 'rails/all'
@@ -6,6 +8,7 @@ Bundler.require(*Rails.groups)
 require 'compensated/rails'
 
 module Dummy
+  # Example application for Spec purposes
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.
     config.load_defaults Rails.version.slice(0, 3)

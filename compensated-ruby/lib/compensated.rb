@@ -1,6 +1,10 @@
+# frozen_string_literal: true
+
 require_relative 'compensated/version'
+require_relative 'compensated/command'
 require_relative 'compensated/payment_processor_event_request_handler'
 
+# Automate payment related events and configuration across payment processors
 module Compensated
   class Error < StandardError; end
   class NoParserForEventError < Error; end
